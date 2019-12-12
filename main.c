@@ -1,81 +1,98 @@
-#include    "header.h"
+#include    "function.h"
+
 
 void main(){
-    initBoard(bullBoard);
-
+    initBoard();
+    DisplayBoard(board);
+    //DisplayVipBoard(board);
 }
 
-void initBoard(Board bullBoard){
+void initBoard(){
     int row, col;
     for(row=0; row<LENGHTBOARD; row++){
         for(col=0; col<LENGHTBOARD; col++){
-            bullBoard[row][col].CellType = getCellType(row, col);
-            bullBoard[row][col].Object = initCell(row, col);
+            board.Matrix[row][col].CellType = getCellType(row, col);
+            board.Matrix[row][col].Object = initCell(row, col);
         }
     }
     
 }
 
 Piece *initCell(int row, int col){
-    switch(true){
-        case A(1) == row && !(col%2):
-            return creatPiece(PLAYER2, DAME);
-        break;
-        
-        case A(2) == row && !(col%2):
-        case H(2) == row && col%2 :
-            return creatPiece(PLAYER2, PAWN);
-        break;
-
-        case A(1) == row && col == N(4):
-            return creatPiece(PLAYER2, KING);
-        break;
-        
-        case A(7) == row && !(col%2):
-            return creatPiece(PLAYER1, DAME);
-        break;
-
-        case A(6) == row && !(col%2):
-        case H(7) == row && col%2 :
-            return creatPiece(PLAYER1, PAWN);
-        break;
-
-        case A(7) == row && col == N(4):
-            return creatPiece(PLAYER1, KING);
-        break;
-        default:
-            return NULL;
+    switch(row){
+        case A(1):{
+            if(col%2 == 0)
+                return creatPiece(PLAYER2, DAME);
+            else if(col == N(4))
+                return creatPiece(PLAYER2, KING);
+            break;
+        }   
+        case H(2):{
+            if(col%2)
+                return creatPiece(PLAYER2, PAWN);
+            break;
+        }
+        case A(2):{
+            if(col%2 == 0)
+                return creatPiece(PLAYER2, PAWN);
+            break;
+        }
+        case A(6):{
+            if(col%2 == 0)
+                return creatPiece(PLAYER1, PAWN);
+            break;
+        }
+        case H(7):{
+            if(col%2)
+                return creatPiece(PLAYER1, PAWN);
+            break;
+        }  
+        case A(7):{
+            if(col%2 == 0)
+                return creatPiece(PLAYER1, DAME);
+            else if(col == N(4))
+                return creatPiece(PLAYER1, KING);
+            break;
+        } 
     }
-    
-
+    return NULL;
 }
 
-Piece * creatPiece(int player, char kind ){
+Piece *creatPiece(int player, char kind){
     Piece *p = Malloc(Piece);
     p->kind = kind;
-    p->ownerPlayer = player;
+    p->PlayerOwner = player;
     return p;
 }
 
-char getKind
-
 char getCellType(int row, int col){
-    switch(true){
-        case !(row % 2) && !(col % 2):
-            return  PROHIBITED_CELL;
-        break;
-        case !(row % 2) && col % 2:
-            return  HORIZONTAL_CELL;
-        break;
-        case row % 2 && !(col % 2):
-            return  VERTICAL_CELL;
-        break;
-        case row % 2 && col % 2:
-            return  ROYAL_CELL;
-        break;
+    if(row%2 == 0){
+        if(col%2 == 0)
+            return  PROHIBITED_CELL; // pair pair
+        else
+            return  HORIZONTAL_CELL; // pair impair
+    }else{
+        if(col%2 == 0)
+            return  VERTICAL_CELL; // impair pair
+        else
+            return  ROYAL_CELL; // impair impair
     }
 }
 
-void DisplayBoard(){
-    
+void DisplayBoard(Board board){
+    int row,col;
+    Cell c;
+    for(row=0;row<LENGHTBOARD;row++){
+        for(col=0;col<LENGHTBOARD;col++){
+            c = board.Matrix[row][col];
+            if(c.Object){
+                printf(" %c(%c-%d) ",c.CellType,c.Object->kind,c.Object->PlayerOwner);
+            }else{
+                 printf(" %c(---) ",c.CellType);
+            }
+           
+        }
+        printf("\n\n");
+    }
 }
+

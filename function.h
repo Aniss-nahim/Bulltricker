@@ -1,9 +1,9 @@
 #include"header.h"
 #define Malloc(type) malloc(sizeof(type))
-#define A(i)    2*i+1
-#define N(i)    2*i+1
-#define V(i)    2*(i-1)
-#define H(i)    2*(i-1)
+#define A(i)    2*i-1 // take number gives a row 
+#define N(i)    2*i-1 //take number gives a col
+#define V(i)    2*(i-1) //take number gives a col
+#define H(i)    2*(i-1) // take number gives a row 
 #define PLAYER1 1
 #define PLAYER2 2
 #define PAWN    'P'
@@ -16,12 +16,19 @@
 #define LENGHTBOARD 15
 //#define ..
 
-void initBoard(Board bullBoard);
+void initBoard();
+
+Piece *initCell(int row, int col);
+
+Piece *creatPiece(int player, char kind);
 
 bool isLegaleMove(Move movement);
+
 bool isValideLocation(Location position);
+
 bool isEmptyCell(Cell cell);
 
-char char getCellType(int row, int col){
-(int row, int col);
+char getCellType(int row, int col);
+
+void DisplayBoard(Board board);
 

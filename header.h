@@ -3,8 +3,8 @@
 #include    <stdio.h>
 #include    <stdlib.h>
 #include    <stdbool.h>
+#include    <string.h>
 
-extern Board board;
 typedef struct{
     int  x;
     int  y;
@@ -16,13 +16,13 @@ typedef struct{
 }Move;
 
 typedef struct{
-    int Cell;
+    int PlayerOwner;
     char kind; // Pion=1, Dame=2, Dame=3
 }Piece;
 
 typedef struct{
     char CellType;
-    Piece *object;
+    Piece *Object;
 }Cell;
 
 typedef struct{
@@ -35,9 +35,6 @@ typedef struct{
     int role;
 }Player;
 
-/*
-typedef struct{
-    .. ..;
-}..;
-*/
+Board board;
+
 #endif
