@@ -1,0 +1,7 @@
+{
+"":"git clone",
+"":"git flow init",
+"khod feature":"git pull"
+"bdel branch -> branch":"git checkout <branch-des>",
+""
+} 

@@ -1,7 +1,7 @@
 #include"header.h"
 #define Malloc(type) malloc(sizeof(type))
-#define A(i)    2*i+1
-#define N(i)    2*i+1
+#define A(i)    2*i-1
+#define N(i)    2*i-1
 #define V(i)    2*(i-1)
 #define H(i)    2*(i-1)
 #define PLAYER1 1
@@ -22,6 +22,4 @@ bool isLegaleMove(Move movement);
 bool isValideLocation(Location position);
 bool isEmptyCell(Cell cell);
 
-char char getCellType(int row, int col){
-(int row, int col);
-
+char getCellType(int row, int col){
