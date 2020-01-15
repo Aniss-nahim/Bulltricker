@@ -3,4 +3,10 @@
                         copy right 2019
 **/
 
-sds
+#include    "function.h"
+
+
+void main(){
+    initBoard();
+    DisplayBoard(board);
+}
