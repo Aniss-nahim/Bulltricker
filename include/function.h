@@ -1,4 +1,5 @@
 #include"header.h"
+
 #define Malloc(type) malloc(sizeof(type))
 #define A(i)    2*i-1 // take number gives a row 
 #define N(i)    2*i-1 //take number gives a col
@@ -23,6 +24,7 @@ Piece *createPiece(int player, char kind);
 // Movment setup
 bool isValideLocation(Location position);
 bool isEmptyCell(Cell cell);
+// return cell if valide and not prohibited
 Cell *getCell(Location position);
 bool isForPawnOrDame(Cell *c);
 bool isForKing(Cell *c);
