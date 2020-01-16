@@ -1,4 +1,4 @@
-#include    "function.h"
+#include    "../include/function.h"
 
 void initBoard(){
     int row, col;
@@ -98,7 +98,7 @@ bool isValideLocation(Location position){
 Cell *getCell(Location position){
     if(isValideLocation(position) && getCellType(position.x,position.y)!= PROHIBITED_CELL)
         return &board.Matrix[position.x][position.y];
-    return NULL;
+return NULL;
 }
 
 // return true if the Cell is not occupid
@@ -120,50 +120,26 @@ bool isForKing(Cell *c){
     return true;
 }
 /*
-bool possibleMovePawn(Cell *to){
-
-}
-
-bool playerRoles(Cell *from, Cell *to, int player){
-    if(player == PLAYER1){
-        switch(from->Object->kind){
-            case PAWN : {
-                if(isForPawn(to)){
-                    return // function that see if the deplacement is valide
-                }
-            } 
-            case DAME : {
-
+bool isLegaleMove(Move movement, int player){
+    Location from ,to;
+    from = movement.from;
+    to = movement.to;
+    Cell *fromCell = getCell(from);
+    if(fromCell !=NULL){
+        if(!isEmptyCell(*fromCell) && fromCell->Object->PlayerOwner == player){
+            Piece pieceToMove = fromCell->Object;
+            Cell *toCell = getCell(to);
+            if(toCell == NULL) return false;
+            switch(pieceToMove->kind){
+                case PAWN :  break;
+                case DAME :  break;
+                case KING :  break;
+                default : return false;
             }
-            case KING : {
-
-            }
-            default : return false;
+        }else{
+            printf(" not your piece !");
         }
     }else{
-
+        printf("not valide position !");
     }
-}
-
-//test if the Cell-form exist en the cell-to exist
-// and if the cell-to is empty;
-// if player one pawn : cell-from position - 
-bool isLegaleMove(Move movement, int player){
-    Cell *to;
-    Cell *from = getCell(movement.from);
-    if(isEmptyCell(from.Object)){
-        printf("Cellule vide !");
-        return false;
-    }else if(from->Object->PlayerOwner != player){
-         printf("Cette piéce ne vous appartient pas !");
-         return false;
-    }else{
-        Cell *to = getCell(movement.to);
-        if(!isEmptyCell(movement.to)){
-            printf("cellule pleinne !");
-            return false;
-        }else
-            return playerRoles(from, to, player);
-    }
-}
-*/
+}*/

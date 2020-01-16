@@ -3,7 +3,7 @@
                         copy right 2019
 **/
 
-#include    "function.h"
+#include    "./include/function.h"
 
 
 void main(){

@@ -23,6 +23,7 @@ Piece *createPiece(int player, char kind);
 // Movment setup
 bool isValideLocation(Location position);
 bool isEmptyCell(Cell cell);
+// return cell if valide and not prohibited
 Cell *getCell(Location position);
 bool isForPawnOrDame(Cell *c);
 bool isForKing(Cell *c);
