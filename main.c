@@ -8,5 +8,10 @@
 
 void main(){
     initBoard();
-    DisplayBoard(board);
+
+    while(1){
+        system("cls");
+        DisplayBoard(board);
+        
+    }
 }

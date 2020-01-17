@@ -4,6 +4,9 @@
 #include    <stdlib.h>
 #include    <stdbool.h>
 #include    <string.h>
+#include    <ctype.h>
+#include    <windows.h>
+#include    <string.h>
 
 typedef struct{
     int  x;

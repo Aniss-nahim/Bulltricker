@@ -75,6 +75,7 @@ void DisplayBoard(Board board){
     int row,col;
     Cell c;
     for(row=0;row<LENGHTBOARD;row++){
+        printf("%c%d\t",(row%2==0)?'H':'A', row/2+1);
         for(col=0;col<LENGHTBOARD;col++){
             c = board.Matrix[row][col];
             if(c.Object){
@@ -84,6 +85,10 @@ void DisplayBoard(Board board){
             }
         }
         printf("\n\n");
+    }
+    printf("  \t");
+    for(col=0;col<LENGHTBOARD;col++){
+        printf("   %c%d   ",(col%2==0)?'V':'N', col/2+1);
     }
 }
 
@@ -119,7 +124,7 @@ bool isForKing(Cell *c){
         return false;
     return true;
 }
-/*
+
 bool isLegaleMove(Move movement, int player){
     Location from ,to;
     from = movement.from;
@@ -127,13 +132,20 @@ bool isLegaleMove(Move movement, int player){
     Cell *fromCell = getCell(from);
     if(fromCell !=NULL){
         if(!isEmptyCell(*fromCell) && fromCell->Object->PlayerOwner == player){
-            Piece pieceToMove = fromCell->Object;
+            Piece *pieceToMove = fromCell->Object;
             Cell *toCell = getCell(to);
             if(toCell == NULL) return false;
             switch(pieceToMove->kind){
-                case PAWN :  break;
-                case DAME :  break;
-                case KING :  break;
+                case PAWN :  
+                    //return checkPawnRules();
+                break;
+                case DAME :  
+                    //return checkDameRules();
+                break;
+                case KING :  
+                    return checkKingRules(pieceToMove, &fromCell, &toCell, movement, player);
+                break;
+
                 default : return false;
             }
         }else{
@@ -142,4 +154,88 @@ bool isLegaleMove(Move movement, int player){
     }else{
         printf("not valide position !");
     }
-}*/
+}
+
+
+bool checkKingRules(Piece* king,Cell **cFrom, Cell **cTo, Move move,int ply){
+    Location from = move.from, to = move.to;
+    if( from.x == to.x && from.y + 2 * ply == to.y ) {
+        Location Loc1, Loc2, Loc3;             
+        Loc1.x = from.x - 2 * ply ; 
+        Loc1.y = from.y + 4 * ply;
+        Loc2.x = from.x ; 
+        Loc2.y = from.y + 4 * ply;
+        Loc3.x = from.x + 2 * ply ; 
+        Loc3.y = from.y + 4 * ply;
+        Cell * c1 = getCell(Loc1);
+        Cell * c2 = getCell(Loc2);
+        Cell * c3 = getCell(Loc3);
+        if(isEmptyCell(*c1) && isEmptyCell(*c2) && isEmptyCell(*c3) ){
+            (*cFrom)->Object  = NULL;
+            (*cTo)->Object = king;
+            return true;
+        }
+        return false;
+    }
+
+    else
+    if( from.x == to.x && from.x - 2 * ply == to.y ){
+        Location Loc1, Loc2, Loc3;             
+        Loc1.x = from.x - 2 * ply ;
+        Loc1.y = from.y - 4 * ply ;
+        Loc2.x = from.x ;
+        Loc2.y = from.y - 4 * ply ;
+        Loc3.x = from.x + 2 * ply ;
+        Loc3.y = from.y - 4 * ply ;
+        Cell * c1 = getCell(Loc1);
+        Cell * c2 = getCell(Loc2);
+        Cell * c3 = getCell(Loc3);
+        if(isEmptyCell(*c1) && isEmptyCell(*c2) && isEmptyCell(*c3) ){
+            (*cFrom)->Object  = NULL;
+            (*cTo)->Object = king;
+            return true;
+        }
+        return false;
+    }
+    
+    else
+    if( from.x - 2 * ply == to.x && from.y == to.y ){
+        Location Loc1, Loc2, Loc3;             
+        Loc1.x = from.x - 4 * ply ;
+        Loc1.y = from.y - 2 * ply ;
+        Loc2.x = from.x - 4 * ply ;
+        Loc2.y = from.y ;
+        Loc3.x = from.x -4 * ply ;
+        Loc3.y = from.y +2 * ply ;
+        Cell * c1 = getCell(Loc1);
+        Cell * c2 = getCell(Loc2);
+        Cell * c3 = getCell(Loc3);
+        if(isEmptyCell(*c1) && isEmptyCell(*c2) && isEmptyCell(*c3) ){
+            (*cFrom)->Object  = NULL;
+            (*cTo)->Object = king;
+            return true;
+        }
+        return false;
+    }
+    
+    else
+    if( from.x + 2 * ply == to.x && from.y == to.y ){
+        Location Loc1, Loc2, Loc3;             
+        Loc1.x = from.x + 4 * ply ;
+        Loc1.y = from.y - 2 * ply ;
+        Loc2.x = from.x + 4 * ply ;
+        Loc2.y = from.y ;
+        Loc3.x = from.x + 4 * ply ;
+        Loc3.y = from.y + 2 * ply ;
+        Cell * c1 = getCell(Loc1);
+        Cell * c2 = getCell(Loc2);
+        Cell * c3 = getCell(Loc3);
+        if(isEmptyCell(*c1) && isEmptyCell(*c2) && isEmptyCell(*c3) ){
+            (*cFrom)->Object  = NULL;
+            (*cTo)->Object = king;
+            return true;
+        }
+        return false;
+    }    
+    
+}

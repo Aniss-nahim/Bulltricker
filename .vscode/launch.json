@@ -8,7 +8,7 @@
             "name": "(Windows) Lancer",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "entrer le nom du programme, par exemple ${workspaceFolder}/a.exe",
+            "program": "${workspaceFolder}/bin/Bulltricker.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
