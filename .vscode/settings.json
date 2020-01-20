@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "function.h": "c"
+        "function.h": "c",
+        "type_traits": "cpp"
     }
 }

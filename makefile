@@ -24,13 +24,23 @@ LIBRARY_PATHS = -LC:\mingwDev\SDL2\lib
 
 
 #Command execution 
-all: main.o function.o linker
+all : main.o cli.o action.o linker
 
+main: main.o linker
+	
+
+cli : cli.o linker
+	
+action : action.o linker
+	
 SDLExec :  $(MAIN)
 	$(CC) $(MAIN) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(EXEC)
 
-function.o :
-			$(CC) -c $(SOURCE)function.c -o $(OBJECT)function.o
+action.o :
+			$(CC) -c $(SOURCE)action.c -o $(OBJECT)action.o
+
+cli.o :
+			$(CC) -c $(SOURCE)cli.c -o $(OBJECT)cli.o
 
 main.o :
 			$(CC) -c $(MAIN) -o $(OBJECT)main.o
@@ -38,9 +48,12 @@ main.o :
 mrproper : clear
 			rm -f $(TARGETPATH)$(EXEC)
 
-clear : 
+clean_o : 
 		rm -f $(OBJECT)*.o 
 
 linker : 
-		$(CC) -o $(TARGETPATH)$(EXEC) $(OBJECT)main.o $(OBJECT)function.o
+		$(CC) -o $(TARGETPATH)$(EXEC) $(OBJECT)*.o
+
+run :
+	$(TARGETPATH)$(EXEC)
 

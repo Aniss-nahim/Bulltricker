@@ -1,11 +1,12 @@
-#include    "../include/function.h"
+#include    "../include/action.h"
 
 void initBoard(){
     int row, col;
+    _player = PLAYER1;
     for(row=0; row<LENGHTBOARD; row++){
         for(col=0; col<LENGHTBOARD; col++){
-            board.Matrix[row][col].CellType = getCellType(row, col);
-            board.Matrix[row][col].Object = initCellObject(row, col);
+            _board.Matrix[row][col].CellType = getCellType(row, col);
+            _board.Matrix[row][col].Object = initCellObject(row, col);
         }
     }
 }
@@ -50,10 +51,10 @@ Piece *initCellObject(int row, int col){
     return NULL;
 }
 
-Piece *createPiece(int player, char kind){
+Piece *createPiece(int ply,  char kind){
     Piece *p = Malloc(Piece);
     p->kind = kind;
-    p->PlayerOwner = player;
+    p->PlayerOwner = ply;
     return p;
 }
 
@@ -71,26 +72,7 @@ char getCellType(int row, int col){
     }
 }
 
-void DisplayBoard(Board board){
-    int row,col;
-    Cell c;
-    for(row=0;row<LENGHTBOARD;row++){
-        printf("%c%d\t",(row%2==0)?'H':'A', row/2+1);
-        for(col=0;col<LENGHTBOARD;col++){
-            c = board.Matrix[row][col];
-            if(c.Object){
-                printf(" %c(%c-%d) ",c.CellType,c.Object->kind,c.Object->PlayerOwner);
-            }else{
-                 printf(" %c(---) ",c.CellType);
-            }
-        }
-        printf("\n\n");
-    }
-    printf("  \t");
-    for(col=0;col<LENGHTBOARD;col++){
-        printf("   %c%d   ",(col%2==0)?'V':'N', col/2+1);
-    }
-}
+
 
 // check the location
 bool isValideLocation(Location position){
@@ -102,7 +84,7 @@ bool isValideLocation(Location position){
 // return NULL if the Cell doesn't exist
 Cell *getCell(Location position){
     if(isValideLocation(position) && getCellType(position.x,position.y)!= PROHIBITED_CELL)
-        return &board.Matrix[position.x][position.y];
+        return &_board.Matrix[position.x][position.y];
 return NULL;
 }
 
@@ -125,13 +107,13 @@ bool isForKing(Cell *c){
     return true;
 }
 
-bool isLegaleMove(Move movement, int player){
+bool isLegaleMove(Move movement){
     Location from ,to;
     from = movement.from;
     to = movement.to;
     Cell *fromCell = getCell(from);
     if(fromCell !=NULL){
-        if(!isEmptyCell(*fromCell) && fromCell->Object->PlayerOwner == player){
+        if(!isEmptyCell(*fromCell) && fromCell->Object->PlayerOwner == _player){
             Piece *pieceToMove = fromCell->Object;
             Cell *toCell = getCell(to);
             if(toCell == NULL) return false;
@@ -143,7 +125,7 @@ bool isLegaleMove(Move movement, int player){
                     //return checkDameRules();
                 break;
                 case KING :  
-                    return checkKingRules(pieceToMove, &fromCell, &toCell, movement, player);
+                    return checkKingRules(pieceToMove, &fromCell, &toCell, movement);
                 break;
 
                 default : return false;
@@ -157,16 +139,16 @@ bool isLegaleMove(Move movement, int player){
 }
 
 
-bool checkKingRules(Piece* king,Cell **cFrom, Cell **cTo, Move move,int ply){
+bool checkKingRules(Piece* king,Cell **cFrom, Cell **cTo, Move move){
     Location from = move.from, to = move.to;
-    if( from.x == to.x && from.y + 2 * ply == to.y ) {
+    if( from.x == to.x && from.y + 2 * _player == to.y ) {
         Location Loc1, Loc2, Loc3;             
-        Loc1.x = from.x - 2 * ply ; 
-        Loc1.y = from.y + 4 * ply;
+        Loc1.x = from.x - 2 * _player ; 
+        Loc1.y = from.y + 4 * _player;
         Loc2.x = from.x ; 
-        Loc2.y = from.y + 4 * ply;
-        Loc3.x = from.x + 2 * ply ; 
-        Loc3.y = from.y + 4 * ply;
+        Loc2.y = from.y + 4 * _player;
+        Loc3.x = from.x + 2 * _player ; 
+        Loc3.y = from.y + 4 * _player;
         Cell * c1 = getCell(Loc1);
         Cell * c2 = getCell(Loc2);
         Cell * c3 = getCell(Loc3);
@@ -179,14 +161,14 @@ bool checkKingRules(Piece* king,Cell **cFrom, Cell **cTo, Move move,int ply){
     }
 
     else
-    if( from.x == to.x && from.x - 2 * ply == to.y ){
+    if( from.x == to.x && from.x - 2 * _player == to.y ){
         Location Loc1, Loc2, Loc3;             
-        Loc1.x = from.x - 2 * ply ;
-        Loc1.y = from.y - 4 * ply ;
+        Loc1.x = from.x - 2 * _player ;
+        Loc1.y = from.y - 4 * _player ;
         Loc2.x = from.x ;
-        Loc2.y = from.y - 4 * ply ;
-        Loc3.x = from.x + 2 * ply ;
-        Loc3.y = from.y - 4 * ply ;
+        Loc2.y = from.y - 4 * _player ;
+        Loc3.x = from.x + 2 * _player ;
+        Loc3.y = from.y - 4 * _player ;
         Cell * c1 = getCell(Loc1);
         Cell * c2 = getCell(Loc2);
         Cell * c3 = getCell(Loc3);
@@ -199,14 +181,14 @@ bool checkKingRules(Piece* king,Cell **cFrom, Cell **cTo, Move move,int ply){
     }
     
     else
-    if( from.x - 2 * ply == to.x && from.y == to.y ){
+    if( from.x - 2 * _player == to.x && from.y == to.y ){
         Location Loc1, Loc2, Loc3;             
-        Loc1.x = from.x - 4 * ply ;
-        Loc1.y = from.y - 2 * ply ;
-        Loc2.x = from.x - 4 * ply ;
+        Loc1.x = from.x - 4 * _player ;
+        Loc1.y = from.y - 2 * _player ;
+        Loc2.x = from.x - 4 * _player ;
         Loc2.y = from.y ;
-        Loc3.x = from.x -4 * ply ;
-        Loc3.y = from.y +2 * ply ;
+        Loc3.x = from.x -4 * _player ;
+        Loc3.y = from.y +2 * _player ;
         Cell * c1 = getCell(Loc1);
         Cell * c2 = getCell(Loc2);
         Cell * c3 = getCell(Loc3);
@@ -219,14 +201,14 @@ bool checkKingRules(Piece* king,Cell **cFrom, Cell **cTo, Move move,int ply){
     }
     
     else
-    if( from.x + 2 * ply == to.x && from.y == to.y ){
+    if( from.x + 2 * _player == to.x && from.y == to.y ){
         Location Loc1, Loc2, Loc3;             
-        Loc1.x = from.x + 4 * ply ;
-        Loc1.y = from.y - 2 * ply ;
-        Loc2.x = from.x + 4 * ply ;
+        Loc1.x = from.x + 4 * _player ;
+        Loc1.y = from.y - 2 * _player ;
+        Loc2.x = from.x + 4 * _player ;
         Loc2.y = from.y ;
-        Loc3.x = from.x + 4 * ply ;
-        Loc3.y = from.y + 2 * ply ;
+        Loc3.x = from.x + 4 * _player ;
+        Loc3.y = from.y + 2 * _player ;
         Cell * c1 = getCell(Loc1);
         Cell * c2 = getCell(Loc2);
         Cell * c3 = getCell(Loc3);

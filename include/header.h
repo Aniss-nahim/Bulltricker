@@ -6,8 +6,11 @@
 #include    <string.h>
 #include    <ctype.h>
 #include    <windows.h>
+#include    <conio.h>
 #include    <string.h>
 
+
+//Struct definitions
 typedef struct{
     int  x;
     int  y;
@@ -20,7 +23,7 @@ typedef struct{
 
 typedef struct{
     int PlayerOwner;
-    char kind; // Pion=1, Dame=2, Dame=3
+    char kind; // Pawn=1, Dame=2, King=3
 }Piece;
 
 typedef struct{
@@ -38,6 +41,10 @@ typedef struct{
     int role;
 }Player;
 
-Board board;
+//Global Variables
+Board   _board;
+int     _player;
+char    _namePlayer1[15];
+char    _namePlayer2[15];
 
 #endif
