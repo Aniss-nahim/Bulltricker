@@ -9,6 +9,13 @@ void initBoard(){
             _board.Matrix[row][col].Object = initCellObject(row, col);
         }
     }
+    Location LocKK;
+    LocKK.y = N(4);
+    LocKK.x = A(7);
+    _board.kingLocation[0] = LocKK;
+    LocKK.x = A(1);
+    _board.kingLocation[1] = LocKK;
+    
 }
 
 Piece *initCellObject(int row, int col){
@@ -116,7 +123,7 @@ bool isLegaleMove(Move movement){
         if(!isEmptyCell(*fromCell) && fromCell->Object->PlayerOwner == _player){
             Piece *pieceToMove = fromCell->Object;
             Cell *toCell = getCell(to);
-            if(toCell == NULL) return false;
+            if(toCell == NULL)  return false;
             switch(pieceToMove->kind){
                 case PAWN :  
                     //return checkPawnRules();
@@ -131,13 +138,14 @@ bool isLegaleMove(Move movement){
                 default : return false;
             }
         }else{
-            printf(" not your piece !");
+            printf("Not your piece or empty cell!");
+            getch();
         }
     }else{
-        printf("not valide position !");
+        printf("Not valide position !");
+        getch();
     }
 }
-
 
 bool checkKingRules(Piece* king,Cell **cFrom, Cell **cTo, Move move){
     Location from = move.from, to = move.to;
@@ -152,16 +160,19 @@ bool checkKingRules(Piece* king,Cell **cFrom, Cell **cTo, Move move){
         Cell * c1 = getCell(Loc1);
         Cell * c2 = getCell(Loc2);
         Cell * c3 = getCell(Loc3);
-        if(isEmptyCell(*c1) && isEmptyCell(*c2) && isEmptyCell(*c3) ){
+        if( ((c1 && isEmptyCell(*c1)) || !c1)
+        &&  ((c2 && isEmptyCell(*c2)) || !c2) 
+        &&  ((c3 && isEmptyCell(*c3)) || !c3) ){
             (*cFrom)->Object  = NULL;
             (*cTo)->Object = king;
+            _board.kingLocation[(_player == PLAYER1)?0:1];
             return true;
         }
         return false;
     }
 
     else
-    if( from.x == to.x && from.x - 2 * _player == to.y ){
+    if( from.x == to.x && from.y - 2 * _player == to.y ){
         Location Loc1, Loc2, Loc3;             
         Loc1.x = from.x - 2 * _player ;
         Loc1.y = from.y - 4 * _player ;
@@ -172,9 +183,12 @@ bool checkKingRules(Piece* king,Cell **cFrom, Cell **cTo, Move move){
         Cell * c1 = getCell(Loc1);
         Cell * c2 = getCell(Loc2);
         Cell * c3 = getCell(Loc3);
-        if(isEmptyCell(*c1) && isEmptyCell(*c2) && isEmptyCell(*c3) ){
+        if( ((c1 && isEmptyCell(*c1)) || !c1)
+        &&  ((c2 && isEmptyCell(*c2)) || !c2) 
+        &&  ((c3 && isEmptyCell(*c3)) || !c3) ){
             (*cFrom)->Object  = NULL;
             (*cTo)->Object = king;
+            _board.kingLocation[(_player == PLAYER1)?0:1];
             return true;
         }
         return false;
@@ -192,9 +206,12 @@ bool checkKingRules(Piece* king,Cell **cFrom, Cell **cTo, Move move){
         Cell * c1 = getCell(Loc1);
         Cell * c2 = getCell(Loc2);
         Cell * c3 = getCell(Loc3);
-        if(isEmptyCell(*c1) && isEmptyCell(*c2) && isEmptyCell(*c3) ){
+        if( ((c1 && isEmptyCell(*c1)) || !c1)
+        &&  ((c2 && isEmptyCell(*c2)) || !c2) 
+        &&  ((c3 && isEmptyCell(*c3)) || !c3) ){
             (*cFrom)->Object  = NULL;
             (*cTo)->Object = king;
+            _board.kingLocation[(_player == PLAYER1)?0:1];
             return true;
         }
         return false;
@@ -212,12 +229,45 @@ bool checkKingRules(Piece* king,Cell **cFrom, Cell **cTo, Move move){
         Cell * c1 = getCell(Loc1);
         Cell * c2 = getCell(Loc2);
         Cell * c3 = getCell(Loc3);
-        if(isEmptyCell(*c1) && isEmptyCell(*c2) && isEmptyCell(*c3) ){
+        if( ((c1 && isEmptyCell(*c1)) || !c1)
+        &&  ((c2 && isEmptyCell(*c2)) || !c2) 
+        &&  ((c3 && isEmptyCell(*c3)) || !c3) ){
             (*cFrom)->Object  = NULL;
             (*cTo)->Object = king;
+            _board.kingLocation[(_player == PLAYER1)?0:1];
             return true;
         }
         return false;
     }    
     
+}
+
+bool checkMat(int ply){
+    Location king ;
+    bool isSurrounded ;
+    Cell *c1, *c2, *c3, *c4;
+    if(ply == PLAYER1){
+        king = _board.kingLocation[0];
+        ply = PLAYER2;
+    }else{
+        king = _board.kingLocation[1];
+        ply = PLAYER1;
+    }
+
+    king.x -=1 ;
+    c1 = getCell(king);
+    
+    king.x +=2 ;
+    c2 = getCell(king);
+    
+    king.x -=1; king.y -=1;
+    c3 = getCell(king);
+    
+    king.y +=2;
+    c4 = getCell(king);
+
+    isSurrounded = !isEmptyCell(*c1) && !isEmptyCell(*c2) && !isEmptyCell(*c3) && !isEmptyCell(*c4);
+    if( isSurrounded && ( c1->Object->PlayerOwner == ply || c2->Object->PlayerOwner == ply || c3->Object->PlayerOwner == ply || c4->Object->PlayerOwner == ply) )
+            return true;
+    return false ;
 }

@@ -17,3 +17,5 @@ bool isForKing(Cell *c);
 
 bool isLegaleMove(Move movement);
 bool checkKingRules(Piece*,Cell **, Cell **, Move ); 
+
+bool checkMat(int ply);

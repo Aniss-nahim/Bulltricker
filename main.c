@@ -15,11 +15,11 @@ void main(){
     lasteMove.to.x = 14;
     lasteMove.to.y = 14;
     
-    splash();
+    //splash();
     strcpy(_namePlayer1, "Ayoub");strcpy(_namePlayer2, "Aniss");
     //readPlayersName(_namePlayer1, _namePlayer2);
     while(1){
-        system("cls");
+        //system("cls");
         __displayBoard();
         printf("\n\t%s's turn",(_player == PLAYER1 )?_namePlayer1:_namePlayer2);
         printf("\t\t\t%s","00:00");
@@ -33,9 +33,16 @@ void main(){
                                     (lasteMove.to.y%2)?'N':'V',
                                         lasteMove.to.y/2+1);
        
-    readMove(&lasteMove);
-
-    //gameController
+        readMove(&lasteMove);
         
+        //gameController
+        isLegaleMove(lasteMove);
+        if ( checkMat(PLAYER1) ){
+            printf(" %s, you Win !!!", _namePlayer2 );
+        }else 
+        if ( checkMat(PLAYER2) ){
+            printf(" %s, you Win !!!", _namePlayer1 );
+        }
+    
     }
 }

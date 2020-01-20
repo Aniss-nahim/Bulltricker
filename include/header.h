@@ -33,6 +33,7 @@ typedef struct{
 
 typedef struct{
     Cell Matrix[15][15];
+    Location kingLocation[2];
 }Board;
 
 typedef struct{
