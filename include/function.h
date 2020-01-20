@@ -33,4 +33,5 @@ bool isLegaleMove(Move movement, int player);
 
 
 void DisplayBoard(Board board);
+Move readMovement();
 

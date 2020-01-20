@@ -87,6 +87,16 @@ void DisplayBoard(Board board){
     }
 }
 
+Move readMovement(){
+    Move m;
+    printf("donner le movment : \n");
+    printf("Form : ");
+    scanf("%d,%d",&m.from.x,&m.from.y);
+    printf("To : ");
+    scanf("%d,%d",&m.to.x,&m.to.y);
+    return m;
+}
+
 // check the location
 bool isValideLocation(Location position){
     if(position.x < LENGHTBOARD && position.y < LENGHTBOARD && position.x >=0 && position.y >=0)

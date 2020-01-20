@@ -7,19 +7,26 @@
 
 
 void main(){
-    Move m;
+    Move m; int turn = PLAYER1; bool next;
+    printf("\n\t\t--------- Welcome to the BULLTRICKER GAME ------------\n");
     initBoard();
-    DisplayBoard(board);
-    printf("donner le movment : \n");
-    printf("Form : ");
-    scanf("%d,%d",&m.from.x,&m.from.y);
-    printf("To : ");
-    scanf("%d,%d",&m.to.x,&m.to.y);
-    printf("checking movement...... \n");
-    if(isLegaleMove(m,1)){
-        printf("Movement done !\n");
-    }else{
-        printf("movement not Done !\n");
-    }
-    DisplayBoard(board);
+    do{
+        DisplayBoard(board);
+        if(turn){
+            printf("PLAYER 1");
+            m = readMovement();
+            do{
+                 next = isLegaleMove(m, turn);
+            }while(!next);
+            turn = PLAYER2;
+        }else{
+            printf("Plaier 2");
+            m = readMovement();
+            do{
+                next = isLegaleMove(m,turn);
+            }while(!next);
+            turn = PLAYER1;
+        }
+        system("cls");
+    }while(true);    
 }
