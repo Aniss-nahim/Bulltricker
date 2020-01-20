@@ -119,27 +119,61 @@ bool isForKing(Cell *c){
         return false;
     return true;
 }
-/*
+
+bool checkPawnRolls(Piece *pawn, Cell **toCell, Cell **fromCell, Move movement, int player){
+    Location from,to;
+    from = movement.from;
+    to = movement.to;
+    if(to.x == from.x-1*player && to.y == from.y + 1){
+        if((*toCell)->Object == NULL){
+            (*toCell)->Object = pawn;
+            (*fromCell)->Object = NULL;
+        }
+    }else if(to.x== from.x-1*player && to.y == from.y - 1){
+        if((*toCell)->Object == NULL){
+            (*toCell)->Object = pawn;
+            (*fromCell)->Object = NULL;
+        }
+    }else if(to.x == from.x-2*player && to.y == from.y){
+        if((*toCell)->Object != NULL){
+            if((*toCell)->Object->PlayerOwner != player){
+                 // empiler piece manger
+                 (*toCell)->Object = pawn;
+                 (*fromCell)->Object = NULL;
+            }
+        }else{
+            (*toCell)->Object = pawn;
+            (*fromCell)->Object = NULL;
+        }
+        return true;
+    }
+    return false;
+}
+
 bool isLegaleMove(Move movement, int player){
     Location from ,to;
     from = movement.from;
     to = movement.to;
-    Cell *fromCell = getCell(from);
+    Cell *fromCell = getCell(from); // check if is valide and isn't prohibited
     if(fromCell !=NULL){
         if(!isEmptyCell(*fromCell) && fromCell->Object->PlayerOwner == player){
-            Piece pieceToMove = fromCell->Object;
-            Cell *toCell = getCell(to);
+            Piece *pieceToMove = fromCell->Object;
+            Cell *toCell = getCell(to); // check if is valide and isn't prohibited
             if(toCell == NULL) return false;
             switch(pieceToMove->kind){
-                case PAWN :  break;
-                case DAME :  break;
-                case KING :  break;
+                case PAWN :  
+                    return checkPawnRolls(pieceToMove,&toCell, &fromCell,movement,player);
+                break;
+                /*case DAME :  break;
+                case KING :  break;*/
                 default : return false;
             }
         }else{
             printf(" not your piece !");
+            return false;
         }
     }else{
         printf("not valide position !");
+        return false;
     }
-}*/
+}

@@ -6,7 +6,7 @@
 #define V(i)    2*(i-1) //take number gives a col
 #define H(i)    2*(i-1) // take number gives a row 
 #define PLAYER1 1
-#define PLAYER2 2
+#define PLAYER2 -1
 #define PAWN    'P'
 #define DAME    'D'
 #define KING    'K'
@@ -28,7 +28,7 @@ bool isEmptyCell(Cell cell);
 Cell *getCell(Location position);
 bool isForPawnOrDame(Cell *c);
 bool isForKing(Cell *c);
-//bool isLegaleMove(Move movement, int player);
+bool isLegaleMove(Move movement, int player);
 
 
 
