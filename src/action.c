@@ -78,11 +78,11 @@ char getCellType(int row, int col){
             return  ROYAL_CELL; // impair impair
     }
 }
-/* stack management */
 
+// stack management
 void initStack(){
     _stackPieces = Malloc(Stack);
-    stack->head = NULL;
+    _stackPieces->head = NULL;
 }
 
 bool emptyStack(){
@@ -92,31 +92,27 @@ bool emptyStack(){
     return false;
 }
 
-element * create_element(Piece p){
-    Element el;
-    el = Malloc(Element);
+Element * create_element(Piece *p){
+    Element *el = Malloc(Element);
     el->p = p;
     el->next = NULL;
     return el;
 }
 
-void addToStack(Piece p){
+void addToStack(Piece *p){
     Element * el = create_element(p);
     el->next = _stackPieces->head;
     _stackPieces->head = el;
 }
 
 void makeStackEmpty(){
-    Element el;
+    Element *el;
     while(_stackPieces->head != NULL){
         el = _stackPieces->head;
         _stackPieces->head = _stackPieces->head->next;
         free(el);
     }
 }
-
-/********************/
-
 
 // check the location
 bool isValideLocation(Location position){
@@ -151,40 +147,7 @@ bool isForKing(Cell *c){
     return true;
 }
 
-bool isLegaleMove(Move movement){
-    Location from ,to;
-    from = movement.from;
-    to = movement.to;
-    Cell *fromCell = getCell(from);
-    if(fromCell !=NULL){
-        if(!isEmptyCell(*fromCell) && fromCell->Object->PlayerOwner == _player){
-            Piece *pieceToMove = fromCell->Object;
-            Cell *toCell = getCell(to);
-            if(toCell == NULL)  return false;
-            switch(pieceToMove->kind){
-                case PAWN :  
-                    return checkPawnRoles(pieceToMove,&toCell, &fromCell,movement);
-                break;
-                case DAME :  
-                    //return checkDameRules();
-                break;
-                case KING :  
-                    return checkKingRules(pieceToMove, &fromCell, &toCell, movement);
-                break;
-
-                default : return false;
-            }
-        }else{
-            printf("Not your piece or empty cell!");
-            getch();
-        }
-    }else{
-        printf("Not valide position !");
-        getch();
-    }
-}
-
-bool checkPawnRoles(Piece *pawn, Cell **toCell, Cell **fromCell, Move movement){
+bool checkPawnRoles(Piece *pawn, Cell **fromCell, Cell **toCell, Move movement){
     Location from,to;
     from = movement.from;
     to = movement.to;
@@ -200,7 +163,7 @@ bool checkPawnRoles(Piece *pawn, Cell **toCell, Cell **fromCell, Move movement){
         }
     }else if(to.x == from.x-2*_player && to.y == from.y){
         if((*toCell)->Object != NULL){
-            if((*toCell)->Object->PlayerOwner != player){
+            if((*toCell)->Object->PlayerOwner != _player){
                  addToStack((*toCell)->Object);// piece captured
                  (*toCell)->Object = pawn;
                  (*fromCell)->Object = NULL;
@@ -213,7 +176,6 @@ bool checkPawnRoles(Piece *pawn, Cell **toCell, Cell **fromCell, Move movement){
     }
     return false;
 }
-
 
 bool checkKingRules(Piece* king,Cell **cFrom, Cell **cTo, Move move){
     Location from = move.from, to = move.to;
@@ -308,6 +270,39 @@ bool checkKingRules(Piece* king,Cell **cFrom, Cell **cTo, Move move){
         return false;
     }    
     
+}
+
+bool isLegaleMove(Move movement){
+    Location from ,to;
+    from = movement.from;
+    to = movement.to;
+    Cell *fromCell = getCell(from);
+    if(fromCell !=NULL){
+        if(!isEmptyCell(*fromCell) && fromCell->Object->PlayerOwner == _player){
+            Piece *pieceToMove = fromCell->Object;
+            Cell *toCell = getCell(to);
+            if(toCell == NULL)  return false;
+            switch(pieceToMove->kind){
+                case PAWN :  
+                    return checkPawnRoles(pieceToMove,&fromCell, &toCell,movement);
+                break;
+                case DAME :  
+                    //return checkDameRules();
+                break;
+                case KING :  
+                    return checkKingRules(pieceToMove, &fromCell, &toCell, movement);
+                break;
+
+                default : return false;
+            }
+        }else{
+            printf("Not your piece or empty cell!\n");
+            getch();
+        }
+    }else{
+        printf("Not valide position !\n");
+        getch();
+    }
 }
 
 bool checkMat(int ply){

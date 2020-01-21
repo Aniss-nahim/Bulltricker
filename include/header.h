@@ -44,12 +44,12 @@ typedef struct{
 
 // Stack definition
 typedef struct ele{
-    Piece p;
+    Piece *p;
     struct ele *next;
 }Element;
 
 typedef struct{
-    element *head;
+    Element *head;
 }Stack;
 
 
