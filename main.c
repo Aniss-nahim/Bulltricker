@@ -3,30 +3,46 @@
                         opyright 2020
 **/
 
-#include    "./include/function.h"
+#include    "./include/action.h"
+#include    "./include/cli.h"
 
 
 void main(){
-    Move m; int turn = PLAYER1; bool next;
-    printf("\n\t\t--------- Welcome to the BULLTRICKER GAME ------------\n");
+    Move lasteMove;
+    lasteMove.from.x = 0;
+    lasteMove.from.y = 0;
+    lasteMove.to.x = 14;
+    lasteMove.to.y = 14;
     initBoard();
-    do{
-        DisplayBoard(board);
-        if(turn){
-            printf("PLAYER 1");
-            m = readMovement();
-            do{
-                 next = isLegaleMove(m, turn);
-            }while(!next);
-            turn = PLAYER2;
-        }else{
-            printf("Plaier 2");
-            m = readMovement();
-            do{
-                next = isLegaleMove(m,turn);
-            }while(!next);
-            turn = PLAYER1;
+    initStack();
+    //splash();
+    strcpy(_namePlayer1, "Ayoub");strcpy(_namePlayer2, "Aniss");
+    //readPlayersName(_namePlayer1, _namePlayer2);
+    while(1){
+        //system("cls");
+        __displayBoard();
+        printf("\n\t%s's turn",(_player == PLAYER1 )?_namePlayer1:_namePlayer2);
+        printf("\t\t\t%s","00:00");
+        printf("\t\t\tlast move %c%d,%c%d > %c%d,%c%d",
+            (lasteMove.from.x%2)?'A':'H',
+                lasteMove.from.x/2+1,
+                    (lasteMove.from.y%2)?'N':'V',
+                        lasteMove.from.y/2+1,            
+                            (lasteMove.to.x%2)?'A':'H',
+                                lasteMove.to.x/2+1,
+                                    (lasteMove.to.y%2)?'N':'V',
+                                        lasteMove.to.y/2+1);
+       
+        readMove(&lasteMove);
+        
+        //gameController
+        isLegaleMove(lasteMove);
+        if ( checkMat(PLAYER1) ){
+            printf(" %s, you Win !!!", _namePlayer2 );
+        }else 
+        if ( checkMat(PLAYER2) ){
+            printf(" %s, you Win !!!", _namePlayer1 );
         }
-        system("cls");
-    }while(true);    
+    
+    }
 }

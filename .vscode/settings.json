@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "function.h": "c",
+        "type_traits": "cpp"
+    }
+}
