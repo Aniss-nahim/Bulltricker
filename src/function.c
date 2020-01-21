@@ -165,7 +165,7 @@ void makeStackEmpty(){
     }
 }
 /************************************/
-bool checkPawnRolls(Piece *pawn, Cell **toCell, Cell **fromCell, Move movement, int player){
+bool checkPawnRoles(Piece *pawn, Cell **toCell, Cell **fromCell, Move movement, int player){
     Location from,to;
     from = movement.from;
     to = movement.to;
@@ -207,7 +207,7 @@ bool isLegaleMove(Move movement, int player){
             if(toCell == NULL) return false;
             switch(pieceToMove->kind){
                 case PAWN :  
-                    return checkPawnRolls(pieceToMove,&toCell, &fromCell,movement,player);
+                    return checkPawnRoles(pieceToMove,&toCell, &fromCell,movement,player);
                 break;
                 /*case DAME :  break;
                 case KING :  break;*/
