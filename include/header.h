@@ -35,6 +35,17 @@ typedef struct{
     int role;
 }Player;
 
+/****** stack *****/
+typedef struct ele{
+    Piece p;
+    struct ele *next;
+}Element;
+
+typedef struct{
+    element *head;
+}Stack;
+/*****************/
 Board board;
+Stack *_stackPieces;
 
 #endif

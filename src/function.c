@@ -129,7 +129,42 @@ bool isForKing(Cell *c){
         return false;
     return true;
 }
+/* for stack piece */
+void initStack(){
+    _stackPieces = Malloc(Stack);
+    stack->head = NULL;
+}
 
+bool emptyStack(){
+    if(_stackPieces->head == NULL){
+        return true;
+    }
+    return false;
+}
+
+element * create_element(Piece p){
+    Element el;
+    el = Malloc(Element);
+    el->p = p;
+    el->next = NULL;
+    return el;
+}
+
+void addToStack(Piece p){
+    Element * el = create_element(p);
+    el->next = _stackPieces->head;
+    _stackPieces->head = el;
+}
+
+void makeStackEmpty(){
+    Element el;
+    while(_stackPieces->head != NULL){
+        el = _stackPieces->head;
+        _stackPieces->head = _stackPieces->head->next;
+        free(el);
+    }
+}
+/************************************/
 bool checkPawnRolls(Piece *pawn, Cell **toCell, Cell **fromCell, Move movement, int player){
     Location from,to;
     from = movement.from;
@@ -147,7 +182,7 @@ bool checkPawnRolls(Piece *pawn, Cell **toCell, Cell **fromCell, Move movement, 
     }else if(to.x == from.x-2*player && to.y == from.y){
         if((*toCell)->Object != NULL){
             if((*toCell)->Object->PlayerOwner != player){
-                 // empiler piece manger
+                 addToStack((*toCell)->Object);
                  (*toCell)->Object = pawn;
                  (*fromCell)->Object = NULL;
             }
