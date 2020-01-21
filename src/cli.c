@@ -124,19 +124,35 @@ void __displayBoard(){
 			printf("\n\n");
 }
 
+void __displayDashboard(Move *lasteMove){
+	printf("\n\t%s's turn",(_player == PLAYER1 )?_namePlayer1:_namePlayer2);
+	printf("\t\t\t%s","00:00");
+	if(lasteMove != NULL){
+		printf("\t\t\tlast move %c%d,%c%d > %c%d,%c%d",
+		(lasteMove->from.x%2)?'A':'H',
+			lasteMove->from.x/2+1,
+				(lasteMove->from.y%2)?'N':'V',
+					lasteMove->from.y/2+1,            
+						(lasteMove->to.x%2)?'A':'H',
+							lasteMove->to.x/2+1,
+								(lasteMove->to.y%2)?'N':'V',
+									lasteMove->to.y/2+1);
+	}
+}
+
 static int inputPos(char Str[]){
     switch(Str[0]){
 		case 'A': case 'a':
-			return A(Str[1]-'0') ;
+			return A(atoi(Str+1));
 			break;
 		case 'N': case 'n':
-			return  N(Str[1]-'0') ;
+			return  N(atoi(Str+1));
 			break;
 		case 'V': case 'v':
-			return  V(Str[1]-'0') ;
+			return  V(atoi(Str+1));
 			break;
 		case 'H': case 'h':
-			return  H(Str[1]-'0') ;
+			return  H(atoi(Str+1));
 			break;
 	}
 }
@@ -154,32 +170,38 @@ static bool inputValid(char Str1[], char Str2[]){
 			);
 }
 
-bool readMove(Move *mv){
+Move *readMove(Move *mv){
 	char Loc1[3], Loc2[3];
 	Location fromLoc, toLoc;
-	start:
-	printf("\n\nfrom : x y\t?>\t");
-	fflush(stdin);
-	scanf("%s %s",Loc1, Loc2);
-	if ( inputValid(Loc1, Loc2) ){
-        fromLoc.x = inputPos(Loc1);
-        fromLoc.y = inputPos(Loc2);
-    }else{
-		puts("      error!!");
-		goto start;
-	}
-	
-    printf("to : x y\t?>\t");
-	scanf("%s %s",Loc1,Loc2);
-    if( inputValid(Loc1, Loc2) ){
-        toLoc.x = inputPos(Loc1);
-        toLoc.y = inputPos(Loc2);
-    }else{
-		puts("      error!!");
-		goto start;
-	}
-
+	bool validation = false;
+	do{
+		printf("\n\rfrom : x y\t?>\t");
+		fflush(stdin);
+		scanf("%s %s",Loc1, Loc2);
+		if ( inputValid(Loc1, Loc2) ){
+			fromLoc.x = inputPos(Loc1);
+			fromLoc.y = inputPos(Loc2);
+			validation = true;
+		}else{
+			puts("      error!!");
+		}
+	}while(!validation);
+	validation = false;
+	do{
+		printf("\n\rto : x y\t?>\t");
+		fflush(stdin);
+		scanf("%s %s",Loc1,Loc2);
+		if( inputValid(Loc1, Loc2) ){
+			toLoc.x = inputPos(Loc1);
+			toLoc.y = inputPos(Loc2);
+			validation = true;
+		}else{
+			puts("\r      error!!");
+		}
+	}while(!validation);
+	if(mv == NULL)
+		mv = (Move*)Malloc(Move);
 	mv->from = fromLoc;
 	mv->to = toLoc;
-	return true;
+	return mv;
 }
