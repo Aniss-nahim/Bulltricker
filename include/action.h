@@ -15,7 +15,9 @@ Cell *getCell(Location position);
 bool isForPawnOrDame(Cell *c);
 bool isForKing(Cell *c);
 
-bool isLegaleMove(Move movement);
-bool checkKingRules(Piece*,Cell **, Cell **, Move ); 
-
-bool checkMat(int ply);
+bool moveBullPiece( Move);
+bool isValideMove( Move);
+bool isLegaleMoveForKing( Move);
+bool checkMat( int);
+bool isLegaleMoveForDame( Move);
+void eatPiece(Cell ** cellAssPieaceToEat);
