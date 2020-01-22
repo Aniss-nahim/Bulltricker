@@ -99,14 +99,6 @@ bool isEmptyCell(Cell cell){
 bool isMyPiece(Cell cell){
 return cell.Object->PlayerOwner == _player;
 }
-/*
-bool isForPawnOrQueen(Cell *c){
-    return (c->CellType == ROYAL_CELL || c->CellType == PROHIBITED_CELL);
-}
-
-bool isForKing(Cell *c){
-    return (c->CellType != ROYAL_CELL);
-}*/
 
 // tell the piece to move
 bool moveBullPiece(Move movement){
