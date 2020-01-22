@@ -18,7 +18,7 @@ void initBoard(){
     
 }
 
-Piece *initCellObject(int row, int col){  ////////// rechange
+Piece *initCellObject(int row, int col){  
     switch(row){
         case A(1):{
             if(col%2 == 0)
@@ -39,12 +39,12 @@ Piece *initCellObject(int row, int col){  ////////// rechange
         }
         case A(6):{
             if(col%2 == 0)
-            return createPiece(PLAYER1, DAME); //PAWN
+                return createPiece(PLAYER1, PAWN); //PAWN
             break;
         }
         case H(7):{
             if(col%2)
-                return createPiece(PLAYER1, DAME); //PAWN
+                return createPiece(PLAYER1, PAWN); //PAWN
             break;
         }  
         case A(7):{
