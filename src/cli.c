@@ -124,11 +124,27 @@ void __displayBoard(){
 			printf("\n\n");
 }
 
+bool emptyStack(){
+    if(_stackPieces->head == NULL){
+        return true;
+    }
+    return false;
+}
+
+void __displayStack(Stack * s){
+	if(!emptyStack()){
+		while(s->head != NULL){
+			printf("(%c)%d ",s->head->p->kind,s->head->p->PlayerOwner);
+			s->head = s->head->next;
+		}
+	}
+}
+
 void __displayDashboard(Move *lasteMove){
 	printf("\n\t%s's turn",(_player == PLAYER1 )?_namePlayer1:_namePlayer2);
 	printf("\t\t\t%s","00:00");
 	if(lasteMove != NULL){
-		printf("\t\t\tlast move %c%d,%c%d > %c%d,%c%d",
+		printf("\t\t\tlast move %c%d,%c%d > %c%d,%c%d\n",
 		(lasteMove->from.x%2)?'A':'H',
 			lasteMove->from.x/2+1,
 				(lasteMove->from.y%2)?'N':'V',
@@ -138,6 +154,8 @@ void __displayDashboard(Move *lasteMove){
 								(lasteMove->to.y%2)?'N':'V',
 									lasteMove->to.y/2+1);
 	}
+	printf("\tPiece captured :\n");
+	__displayStack(_stackPieces);
 }
 
 static int inputPos(char Str[]){

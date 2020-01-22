@@ -85,13 +85,6 @@ void initStack(){
     _stackPieces->head = NULL;
 }
 
-bool emptyStack(){
-    if(_stackPieces->head == NULL){
-        return true;
-    }
-    return false;
-}
-
 Element * create_element(Piece *p){
     Element *el = Malloc(Element);
     el->p = p;
@@ -156,11 +149,14 @@ bool checkPawnRoles(Piece *pawn, Cell **fromCell, Cell **toCell, Move movement){
             (*toCell)->Object = pawn;
             (*fromCell)->Object = NULL;
         }
+        return true;
     }else if(to.x== from.x-1*_player && to.y == from.y - 1){
         if((*toCell)->Object == NULL){
+            printf("here");
             (*toCell)->Object = pawn;
             (*fromCell)->Object = NULL;
         }
+        return true;
     }else if(to.x == from.x-2*_player && to.y == from.y){
         if((*toCell)->Object != NULL){
             if((*toCell)->Object->PlayerOwner != _player){
@@ -281,7 +277,11 @@ bool isLegaleMove(Move movement){
         if(!isEmptyCell(*fromCell) && fromCell->Object->PlayerOwner == _player){
             Piece *pieceToMove = fromCell->Object;
             Cell *toCell = getCell(to);
-            if(toCell == NULL)  return false;
+            if(toCell == NULL){
+                printf("Not valide position ! 1\n");
+                getch();
+                return false;
+            }
             switch(pieceToMove->kind){
                 case PAWN :  
                     return checkPawnRoles(pieceToMove,&fromCell, &toCell,movement);
@@ -293,15 +293,15 @@ bool isLegaleMove(Move movement){
                     return checkKingRules(pieceToMove, &fromCell, &toCell, movement);
                 break;
 
-                default : return false;
+                default : printf("Fatale error, invalide piece !\n"); return false;
             }
         }else{
             printf("Not your piece or empty cell!\n");
-            getch();
+            getch(); return false;
         }
     }else{
-        printf("Not valide position !\n");
-        getch();
+        printf("Not valide position ! 2\n");
+        getch(); return false;
     }
 }
 

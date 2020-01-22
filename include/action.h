@@ -8,7 +8,6 @@ Piece *createPiece(int , char );
 
 //stack management
 void initStack();
-bool emptyStack();
 Element * create_element(Piece *p);
 void addToStack(Piece *p);
 void makeStackEmpty();
