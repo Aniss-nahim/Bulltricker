@@ -63,10 +63,20 @@ typedef struct{
     int role;
 }Player;
 
+typedef struct _node{
+    Piece *piece;
+    struct _node *next;
+}Node;
+
+typedef struct{
+    Node *head;
+}Stack;
+
 //Global Variables
 Board   _board;
 int     _player;
 char    _namePlayer1[15];
 char    _namePlayer2[15];
+Stack   *_stackPieces; 
 
 #endif

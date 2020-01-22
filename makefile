@@ -8,41 +8,37 @@ SOURCE = ./src/
 TARGETPATH = ./bin/
 MAIN = main.c
 
-#SDL CONFIG
 #COMPILER_FLAGS specifies the additional compilation options we're using
 # -w suppresses all warnings
 #  # -Wl,-subsystem,windows gets rid of the console window
-COMPILER_FLAGS = -w -Wl,-subsystem,windows
-
-#LINKER_FLAGS specifies the libraries we're linking against
-LINKER_FLAGS = -lmingw32 -lSDL2main -lSDL2_image -lSDL2_ttf -lSDL2
-
-#includes for lib SDL2
-INCLUDE_PATHS = -IC:\mingwDev\SDL2\include
-
-LIBRARY_PATHS = -LC:\mingwDev\SDL2\lib
-
+COMPILER_FLAGS = -w -Wl
 
 #Command execution 
-all : main.o cli.o action.o dame.o pawn.o king.o linker
+all : main.o cli.o action.o dame.o pawn.o king.o bullStack.o linker
 
-main: main.o linker
+
+action : action.o linker
+	
+bullStack : bullStack.o linker
 	
 cli : cli.o linker
-	
-action : action.o linker
 	
 dame : dame.o linker
 	
 king : king.o linker
 	
+main: main.o linker
+	
 pawn : pawn.o linker
 	
-SDLExec :  $(MAIN)
-	$(CC) $(MAIN) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(EXEC)
-
 action.o :
 			$(CC) -c $(SOURCE)action.c -o $(OBJECT)action.o
+
+bullStack.o :
+			$(CC) -c $(SOURCE)bullStack.c -o $(OBJECT)bullStack.o
+
+cli.o :
+			$(CC) -c $(SOURCE)cli.c -o $(OBJECT)cli.o
 
 dame.o :
 			$(CC) -c $(SOURCE)dame.c -o $(OBJECT)dame.o
@@ -50,16 +46,13 @@ dame.o :
 king.o :
 			$(CC) -c $(SOURCE)king.c -o $(OBJECT)king.o
 
-pawn.o :
-			$(CC) -c $(SOURCE)pawn.c -o $(OBJECT)pawn.o
-
-cli.o :
-			$(CC) -c $(SOURCE)cli.c -o $(OBJECT)cli.o
-
 main.o :
 			$(CC) -c $(MAIN) -o $(OBJECT)main.o
 
-mrproper : clear
+pawn.o :
+			$(CC) -c $(SOURCE)pawn.c -o $(OBJECT)pawn.o
+
+mrproper :
 			rm -f $(TARGETPATH)$(EXEC)
 
 clean_o : 
@@ -70,4 +63,3 @@ linker :
 
 run :
 	$(TARGETPATH)$(EXEC)
-

@@ -18,7 +18,7 @@ void initBoard(int rolePlayer){
     
 }
 
-Piece *initCellObject(int row, int col){  ////////// rechange
+Piece *initCellObject(int row, int col){
     switch(row){
         case A(1):{
             if(col%2 == 0)
@@ -39,12 +39,12 @@ Piece *initCellObject(int row, int col){  ////////// rechange
         }
         case A(6):{
             if(col%2 == 0)
-            return createPiece(PLAYER1, PAWN); //PAWN
+            return createPiece(PLAYER1, PAWN); 
             break;
         }
         case H(7):{
             if(col%2)
-                return createPiece(PLAYER1, PAWN); //PAWN
+                return createPiece(PLAYER1, PAWN); 
             break;
         }  
         case A(7):{
@@ -112,10 +112,10 @@ bool isForKing(Cell *c){
 bool moveBullPiece(Move movement){
     printf(" (%d,%d) > (%d,%d) ", movement.from.x, movement.from.y, movement.to.x, movement.to.y);
     test("moveBullPiece");
-    Piece *pieceToMove = getCell(movement.from)->Object;
     bool isLegale = false;
     if(!isValideMove(movement))
         return false;
+    Piece *pieceToMove = getCell(movement.from)->Object;
     switch(pieceToMove->kind){
         case PAWN :  
             isLegale = isLegaleMoveForPawn( movement);
@@ -147,13 +147,14 @@ bool moveBullPiece(Move movement){
 bool isValideMove(Move movement){
     Cell *fromCell = getCell(movement.from); 
     Cell *toCell = getCell(movement.to);
-    return( ( fromCell && ( !isEmptyCell(*fromCell) && isMyPiece(*fromCell) )
-        &&  toCell  ));
+    printf("fromCEll  %s" , fromCell );
+    return(  fromCell && ( !isEmptyCell(*fromCell) && isMyPiece(*fromCell) )
+        &&  toCell  );
 }
 
 // eat given Piece
 void eatPiece(Cell ** cellAssPieaceToEat){
     
+    pushToStack((*cellAssPieaceToEat)->Object);
     (*cellAssPieaceToEat)->Object = NULL;
-    //addToStack((*cellAssPieaceToEat)->Object);
 }

@@ -41,7 +41,7 @@ void displayBoard(){
     }
 }
 
-char shape(int i, int j){
+static char shape(int i, int j){
 	char r;
 	Cell C = _board.Matrix[i][j];
 	if(C.Object){
@@ -120,6 +120,20 @@ void __displayBoard(){
 		printf("       %s    %s     %s   %s     %s    %s    %s    %s    %s    %s    %s    %s    %s    %s     %s","V1","N1","V2","N2","V3","N3","V4","N4","V5","N5","V6","N6","V7","N7","V8");
 
 			printf("\n\n");
+}
+
+void displayBar(Move move){
+	printf("\n\t%s's turn",(_player == PLAYER1 )?_namePlayer1:_namePlayer2);
+        printf("\t\t\t%s","00:00");
+        printf("\t\t\tlast move %c%d,%c%d > %c%d,%c%d",
+            (move.from.x%2)?'A':'H',
+                move.from.x/2+1,
+                    (move.from.y%2)?'N':'V',
+                        move.from.y/2+1,            
+                            (move.to.x%2)?'A':'H',
+                                move.to.x/2+1,
+                                    (move.to.y%2)?'N':'V',
+                                        move.to.y/2+1);
 }
 
 static int inputPos(char Str[]){

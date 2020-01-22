@@ -29,3 +29,11 @@ bool checkMat( int);
 bool isLegaleMoveForDame( Move);
 
 bool isLegaleMoveForPawn( Move);
+
+// stack management
+void initStack();
+Node * create_element(Piece *p);
+void pushToStack(Piece *p);
+void makeStackEmpty();
+bool isEmptyStack();
+void displayStack(Stack *, char []);
