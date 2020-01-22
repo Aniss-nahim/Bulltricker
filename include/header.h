@@ -21,7 +21,7 @@
 #define PLAYER2 -1
 
 #define PAWN 'P'
-#define DAME 'D'
+#define QUEEN 'Q'
 #define KING 'K'
 
 #define PROHIBITED_CELL 'B'
@@ -33,8 +33,8 @@
 
 //Struct definitions
 typedef struct{
-    int  x;
-    int  y;
+    unsigned int  x;
+    unsigned int  y;
 }Location;
 
 typedef struct{
@@ -44,7 +44,7 @@ typedef struct{
 
 typedef struct{
     int PlayerOwner;
-    char kind; // Pawn=1, Dame=2, King=3
+    char kind; // Pawn=1, Queen=2, King=3
 }Piece;
 
 typedef struct{

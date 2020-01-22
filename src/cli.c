@@ -20,27 +20,6 @@ void readPlayersName(char str1[],char str2[]){
 	getch();
 }
 
-void displayBoard(){
-    int row,col;
-    Cell c;
-    for(row=0;row<LENGHTBOARD;row++){
-        printf("%c%d\t",(row%2==0)?'H':'A', row/2+1);
-        for(col=0;col<LENGHTBOARD;col++){
-            c = _board.Matrix[row][col];
-            if(c.Object){
-                printf(" %c(%c-%d) ",c.CellType,c.Object->kind,c.Object->PlayerOwner);
-            }else{
-                 printf(" %c(---) ",c.CellType);
-            }
-        }
-        printf("\n\n");
-    }
-    printf("  \t");
-    for(col=0;col<LENGHTBOARD;col++){
-        printf("   %c%d   ",(col%2==0)?'V':'N', col/2+1);
-    }
-}
-
 static char shape(int i, int j){
 	char r;
 	Cell C = _board.Matrix[i][j];
@@ -53,7 +32,7 @@ static char shape(int i, int j){
 	
 }
 
-void __displayBoard(){
+void displayBoard(){
 		int row,col;
 		char c[15];
 		

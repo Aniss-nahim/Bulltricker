@@ -2,6 +2,7 @@
 
 //Debug
 void test(char str[]);
+void move(Move m);
 
 // board initialisation
 void initBoard( int);
@@ -16,17 +17,17 @@ bool isMyPiece(Cell cell);
 
 // return cell if valide and not prohibited
 Cell *getCell(Location position);
-bool isForPawnOrDame(Cell *c);
-bool isForKing(Cell *c);
+//bool isForPawnOrQueen(Cell *c);
+//bool isForKing(Cell *c);
 
 bool moveBullPiece( Move);
 bool isValideMove( Move);
-void eatPiece(Cell ** cellAssPieaceToEat);
+void eatPiece(Cell ** cellOfPieaceToEat);
 
 bool isLegaleMoveForKing( Move);
 bool checkMat( int);
 
-bool isLegaleMoveForDame( Move);
+bool isLegaleMoveForQueen( Move);
 
 bool isLegaleMoveForPawn( Move);
 

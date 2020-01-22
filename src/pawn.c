@@ -5,8 +5,13 @@ void test(char str[]){
     getch();
 }
 
+void move(Move m){
+    printf(" (%d,%d) > (%d,%d) ", m.from.x, m.from.y, m.to.x, m.to.y);
+    getch();
+}
+
+
 bool isLegaleMoveForPawn( Move move){
-    test("isLegaleMoveForPawn");
     Location from = move.from , to = move.to;
     if( ( ( to.x == from.x - 1 * _player && to.y == from.y + 1 * _player ) || 
           ( to.x == from.x - 1 * _player && to.y == from.y - 1 * _player ) ) 
@@ -28,7 +33,7 @@ bool isLegaleMoveForPawn( Move move){
     }
 
     if(!isEmptyCell(*getCell(to))) return false;
-   test("testRange?");
+   
     if( (from.x - to.x) % 4 == 0  && from.x * _player > to.x * _player ){
         
         Location  kingLoc0,pieceLoc0, kingLoc1, pieceLoc1;
@@ -37,11 +42,10 @@ bool isLegaleMoveForPawn( Move move){
         pieceLoc0.x = from.x - 2 * _player ;
         kingLoc1.x = from.x - 3 * _player ;
         pieceLoc1.x = from.x - 4 * _player ;
-        test("Range");
+        
         if( isEmptyCell(*getCell(kingLoc0)) && isEmptyCell(*getCell(kingLoc1)) ){
             if( isEmptyCell(*getCell(pieceLoc0)) ) {
                 if( pieceLoc1.x == to.x && from.x == 5 * _player + 7 /* f(x) = 5 * x + 7 ; (1)>12,(-1)>2) */ ) {
-                    test("avancer de 2 cases")    ;
                     return true; // avancer de 2 cases d'un coup, lors de leur premier coup}
                 }
                 return false; //else

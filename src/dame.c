@@ -1,9 +1,9 @@
 #include    "../include/action.h"
 
-bool isLegaleMoveForDame(Move move){
+bool isLegaleMoveForQueen(Move move){
     Location from = move.from , to = move.to;
-    printf("isLegaleMoveForDame ");getch();
-    //from.x + d * _player ma3ndha ma3na fDame o King
+    printf("isLegaleMoveForQueen ");getch();
+    //from.x + d * _player ma3ndha ma3na fQueen o King
     if((( from.x - 1 == to.x && from.y + 1 == to.y) ||
         ( from.x - 1 == to.x && from.y - 1 == to.y) ||
         ( from.x + 1 == to.x && from.y - 1 == to.y) ||

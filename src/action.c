@@ -22,7 +22,7 @@ Piece *initCellObject(int row, int col){
     switch(row){
         case A(1):{
             if(col%2 == 0)
-                return createPiece(PLAYER2, DAME);
+                return createPiece(PLAYER2, QUEEN);
             else if(col == N(4))
                 return createPiece(PLAYER2, KING);
             break;
@@ -49,7 +49,7 @@ Piece *initCellObject(int row, int col){
         }  
         case A(7):{
             if(col%2 == 0)
-                return createPiece(PLAYER1, DAME);
+                return createPiece(PLAYER1, QUEEN);
             else if(col == N(4))
                 return createPiece(PLAYER1, KING);
             break;
@@ -87,7 +87,7 @@ bool isValideLocation(Location position){
 // return NULL if the Cell doesn't exist
 Cell *getCell(Location position){
     return ( isValideLocation(position) && getCellType(position.x,position.y)!= PROHIBITED_CELL )
-                ?&_board.Matrix[position.x][position.y] 
+                ?&_board.Matrix[position.x][position.y]
                 :NULL;
 }
 
@@ -99,19 +99,17 @@ bool isEmptyCell(Cell cell){
 bool isMyPiece(Cell cell){
 return cell.Object->PlayerOwner == _player;
 }
-
-bool isForPawnOrDame(Cell *c){
+/*
+bool isForPawnOrQueen(Cell *c){
     return (c->CellType == ROYAL_CELL || c->CellType == PROHIBITED_CELL);
 }
 
 bool isForKing(Cell *c){
     return (c->CellType != ROYAL_CELL);
-}
+}*/
 
 // tell the piece to move
 bool moveBullPiece(Move movement){
-    printf(" (%d,%d) > (%d,%d) ", movement.from.x, movement.from.y, movement.to.x, movement.to.y);
-    test("moveBullPiece");
     bool isLegale = false;
     if(!isValideMove(movement))
         return false;
@@ -120,8 +118,8 @@ bool moveBullPiece(Move movement){
         case PAWN :  
             isLegale = isLegaleMoveForPawn( movement);
         break;
-        case DAME :  
-            isLegale = isLegaleMoveForDame( movement);
+        case QUEEN :  
+            isLegale = isLegaleMoveForQueen( movement);
         break;
         case KING :  
             isLegale = isLegaleMoveForKing( movement);
@@ -135,7 +133,7 @@ bool moveBullPiece(Move movement){
         if(pieceToMove->kind == KING)
             _board.kingLocation[(_player == PLAYER1)?0:1] =  movement.to;
         else if(pieceToMove->kind == PAWN &&  movement.to.x == -7 * _player +7 )
-            getCell(movement.to)->Object->kind = DAME ;
+            getCell(movement.to)->Object->kind = QUEEN ;
         return true;
     }
 
@@ -153,8 +151,8 @@ bool isValideMove(Move movement){
 }
 
 // eat given Piece
-void eatPiece(Cell ** cellAssPieaceToEat){
+void eatPiece(Cell ** cellOfPieaceToEat){
     
-    pushToStack((*cellAssPieaceToEat)->Object);
-    (*cellAssPieaceToEat)->Object = NULL;
+    pushToStack((*cellOfPieaceToEat)->Object);
+    (*cellOfPieaceToEat)->Object = NULL;
 }
