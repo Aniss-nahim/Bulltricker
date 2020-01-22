@@ -24,7 +24,7 @@ LIBRARY_PATHS = -LC:\mingwDev\SDL2\lib
 
 
 #Command execution 
-all : main.o cli.o action.o dame.o linker
+all : main.o cli.o action.o dame.o pawn.o king.o linker
 
 main: main.o linker
 	
@@ -34,6 +34,10 @@ action : action.o linker
 	
 dame : dame.o linker
 	
+king : king.o linker
+	
+pawn : pawn.o linker
+	
 SDLExec :  $(MAIN)
 	$(CC) $(MAIN) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(EXEC)
 
@@ -42,6 +46,12 @@ action.o :
 
 dame.o :
 			$(CC) -c $(SOURCE)dame.c -o $(OBJECT)dame.o
+
+king.o :
+			$(CC) -c $(SOURCE)king.c -o $(OBJECT)king.o
+
+pawn.o :
+			$(CC) -c $(SOURCE)pawn.c -o $(OBJECT)pawn.o
 
 cli.o :
 			$(CC) -c $(SOURCE)cli.c -o $(OBJECT)cli.o

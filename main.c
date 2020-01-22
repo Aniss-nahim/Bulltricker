@@ -8,7 +8,7 @@
 
 
 void main(){
-    initBoard();
+    initBoard(PLAYER2);
     Move lasteMove;
     lasteMove.from.x = 0;
     lasteMove.from.y = 0;
@@ -36,7 +36,9 @@ void main(){
         readMove(&lasteMove);
         
         //gameController
-        moveBullPiece(lasteMove);
+        if(moveBullPiece(lasteMove))
+            _player *= -1; //_player = (_player == PLAYER1)? PLAYER2: PLAYER1;
+        
         if ( checkMat(PLAYER1) ){
             printf(" %s, you Win !!!", _namePlayer2 );
             return ;

@@ -1,4 +1,4 @@
-#include    "../include/common.h"
+#include    "../include/header.h"
 
 void splash();
 void readPlayersName(char [],char []);
