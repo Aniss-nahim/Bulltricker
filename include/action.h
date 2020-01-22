@@ -17,8 +17,6 @@ bool isMyPiece(Cell cell);
 
 // return cell if valide and not prohibited
 Cell *getCell(Location position);
-//bool isForPawnOrQueen(Cell *c);
-//bool isForKing(Cell *c);
 
 bool moveBullPiece( Move);
 bool isValideMove( Move);
