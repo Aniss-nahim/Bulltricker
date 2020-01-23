@@ -1,81 +1,42 @@
-#include    "header.h"
+/**
+    ************* Welcome to the BULLTRICKER game *****************
+                         ©opyRight 2019
+**/
+
+#include    "./include/action.h"
+#include    "./include/cli.h"
+
 
 void main(){
-    initBoard(bullBoard);
-
-}
-
-void initBoard(Board bullBoard){
-    int row, col;
-    for(row=0; row<LENGHTBOARD; row++){
-        for(col=0; col<LENGHTBOARD; col++){
-            bullBoard[row][col].CellType = getCellType(row, col);
-            bullBoard[row][col].Object = initCell(row, col);
+    
+    initStack();
+    initBoard(PLAYER1);
+    Move lastMove;
+    lastMove.from.x = lastMove.from.y = 0;  lastMove.to.x = lastMove.to.y = 14;
+    
+    splash();
+    strcpy(_namePlayer1, "Ayoub");/*VS*/strcpy(_namePlayer2, "Aniss");
+    //readPlayersName( _namePlayer1, _namePlayer2);
+    while(true){ //loop game
+        system("cls");
+        displayBoard();
+        displayBar(lastMove);
+        displayStack(_stackPieces,"stack");
+        if(getch() == 27)
+            exit(-1);
+        readMove(&lastMove);
+        
+        ///gameController
+        if(moveBullPiece(lastMove))
+            _player *= -1; //_player = (_player == PLAYER1)? PLAYER2: PLAYER1;
+        
+        if ( checkMat(PLAYER1) ){
+            printf(" %s, you Win !!!", _namePlayer2 );  getch();
+            exit(1);
+        }else 
+        if ( checkMat(PLAYER2) ){
+            printf(" %s, you Win !!!", _namePlayer1 );  getch();
+            exit(2);
         }
     }
-    
-}
-
-Piece *initCell(int row, int col){
-    switch(true){
-        case A(1) == row && !(col%2):
-            return creatPiece(PLAYER2, DAME);
-        break;
-        
-        case A(2) == row && !(col%2):
-        case H(2) == row && col%2 :
-            return creatPiece(PLAYER2, PAWN);
-        break;
-
-        case A(1) == row && col == N(4):
-            return creatPiece(PLAYER2, KING);
-        break;
-        
-        case A(7) == row && !(col%2):
-            return creatPiece(PLAYER1, DAME);
-        break;
-
-        case A(6) == row && !(col%2):
-        case H(7) == row && col%2 :
-            return creatPiece(PLAYER1, PAWN);
-        break;
-
-        case A(7) == row && col == N(4):
-            return creatPiece(PLAYER1, KING);
-        break;
-        default:
-            return NULL;
-    }
-    
-
-}
-
-Piece * creatPiece(int player, char kind ){
-    Piece *p = Malloc(Piece);
-    p->kind = kind;
-    p->ownerPlayer = player;
-    return p;
-}
-
-char getKind
-
-char getCellType(int row, int col){
-    switch(true){
-        case !(row % 2) && !(col % 2):
-            return  PROHIBITED_CELL;
-        break;
-        case !(row % 2) && col % 2:
-            return  HORIZONTAL_CELL;
-        break;
-        case row % 2 && !(col % 2):
-            return  VERTICAL_CELL;
-        break;
-        case row % 2 && col % 2:
-            return  ROYAL_CELL;
-        break;
-    }
-}
-
-void DisplayBoard(){
-    
 }
