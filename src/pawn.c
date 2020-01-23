@@ -81,6 +81,5 @@ bool isLegaleMoveForPawn( Move move){
             }
         }
     }
-    
     return false;
 }

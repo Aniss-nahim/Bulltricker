@@ -144,7 +144,7 @@ bool isValideMove(Move movement){
 
 // eat given Piece
 void eatPiece(Cell ** cellOfPieaceToEat){
-    
+
     pushToStack((*cellOfPieaceToEat)->Object);
     (*cellOfPieaceToEat)->Object = NULL;
 }
