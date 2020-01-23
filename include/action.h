@@ -1,9 +1,5 @@
 #include    "../include/header.h"
 
-//Debug
-void test(char str[]);
-void move(Move m);
-
 // board initialisation
 void initBoard( int);
 Piece *initCellObject(int row, int col);
@@ -18,7 +14,7 @@ bool isMyPiece(Cell cell);
 // return cell if valide and not prohibited
 Cell *getCell(Location position);
 
-bool moveBullPiece( Move);
+bool moveBullPiece(Move *);
 bool isValideMove( Move);
 void eatPiece(Cell ** cellOfPieaceToEat);
 

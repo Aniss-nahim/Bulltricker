@@ -8,35 +8,37 @@
 
 
 void main(){
-    
-    initStack();
+    Move *lastMove = NULL;
+    bool checkMatPlayer1,checkMatPlayer2;
     initBoard(PLAYER1);
-    Move lastMove;
-    lastMove.from.x = lastMove.from.y = 0;  lastMove.to.x = lastMove.to.y = 14;
-    
+    initStack();
     splash();
-    strcpy(_namePlayer1, "Ayoub");/*VS*/strcpy(_namePlayer2, "Aniss");
-    //readPlayersName( _namePlayer1, _namePlayer2);
-    while(true){ //loop game
+    strcpy(_namePlayer1, "Ayoub");strcpy(_namePlayer2, "Aniss");
+    //readPlayersName(_namePlayer1, _namePlayer2);
+    checkMatPlayer1 = checkMatPlayer2 = false;
+    while(!checkMatPlayer1 || !checkMatPlayer2){
         system("cls");
+
+        //UI
         displayBoard();
         displayBar(lastMove);
         displayStack(_stackPieces,"stack");
-        if(getch() == 27)
+         if(getch() == 27)
             exit(-1);
-        readMove(&lastMove);
-        
-        ///gameController
-        if(moveBullPiece(lastMove))
-            _player *= -1; //_player = (_player == PLAYER1)? PLAYER2: PLAYER1;
-        
-        if ( checkMat(PLAYER1) ){
-            printf(" %s, you Win !!!", _namePlayer2 );  getch();
-            exit(1);
-        }else 
-        if ( checkMat(PLAYER2) ){
-            printf(" %s, you Win !!!", _namePlayer1 );  getch();
-            exit(2);
-        }
+        //gameController
+        do{
+            //readMove
+            lastMove = readMove(lastMove);
+        }while(!moveBullPiece(lastMove));
+        //checkMat test
+        checkMatPlayer1 = checkMat(PLAYER1);
+        checkMatPlayer2 = checkMat(PLAYER2);
+        //switch turn
+        _player *= -1;
+    }
+    if(checkMatPlayer1){
+        printf(" %s, you Win !!!", _namePlayer2 );
+    }else{
+        printf(" %s, you Win !!!", _namePlayer1 );
     }
 }

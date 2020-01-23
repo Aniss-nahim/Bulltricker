@@ -74,6 +74,7 @@ typedef struct{
 
 //Global Variables
 Board   _board;
+Stack *_stackPieces; // this stack will contain all captured pieces
 int     _player;
 char    _namePlayer1[15];
 char    _namePlayer2[15];

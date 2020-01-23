@@ -4,5 +4,5 @@
 void splash();
 void readPlayersName(char [],char []);
 void displayBoard();
-void displayBar(Move move);
-bool readMove(Move *);
+void displayBar(Move *);
+Move* readMove(Move *);

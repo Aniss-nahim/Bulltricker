@@ -1,16 +1,5 @@
 #include    "../include/action.h"
 
-void test(char str[]){
-    printf("\n# %s , ", str);
-    getch();
-}
-
-void move(Move m){
-    printf(" (%d,%d) > (%d,%d) ", m.from.x, m.from.y, m.to.x, m.to.y);
-    getch();
-}
-
-
 bool isLegaleMoveForPawn( Move move){
     Location from = move.from , to = move.to;
     if( ( ( to.x == from.x - 1 * _player && to.y == from.y + 1 * _player ) || 

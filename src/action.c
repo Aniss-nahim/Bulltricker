@@ -101,31 +101,31 @@ return cell.Object->PlayerOwner == _player;
 }
 
 // tell the piece to move
-bool moveBullPiece(Move movement){
+bool moveBullPiece(Move *movement){
     bool isLegale = false;
-    if(!isValideMove(movement))
+    if(!isValideMove(*movement))
         return false;
-    Piece *pieceToMove = getCell(movement.from)->Object;
+    Piece *pieceToMove = getCell(movement->from)->Object;
     switch(pieceToMove->kind){
         case PAWN :  
-            isLegale = isLegaleMoveForPawn( movement);
+            isLegale = isLegaleMoveForPawn( *movement);
         break;
         case QUEEN :  
-            isLegale = isLegaleMoveForQueen( movement);
+            isLegale = isLegaleMoveForQueen(*movement);
         break;
         case KING :  
-            isLegale = isLegaleMoveForKing( movement);
+            isLegale = isLegaleMoveForKing( *movement);
         break;
         default : return false;
     }
     
     if(isLegale){
-        getCell(movement.from)->Object  = NULL;
-        getCell(movement.to)->Object = pieceToMove;
+        getCell(movement->from)->Object  = NULL;
+        getCell(movement->to)->Object = pieceToMove;
         if(pieceToMove->kind == KING)
-            _board.kingLocation[(_player == PLAYER1)?0:1] =  movement.to;
-        else if(pieceToMove->kind == PAWN &&  movement.to.x == -7 * _player +7 )
-            getCell(movement.to)->Object->kind = QUEEN ;
+            _board.kingLocation[(_player == PLAYER1)?0:1] =  movement->to;
+        else if(pieceToMove->kind == PAWN &&  movement->to.x == -7 * _player +7 )
+            getCell(movement->to)->Object->kind = QUEEN ;
         return true;
     }
 
