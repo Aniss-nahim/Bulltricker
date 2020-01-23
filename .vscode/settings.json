@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "function.h": "c",
+        "type_traits": "cpp",
+        "common.h": "c",
+        "action.h": "c"
+    }
+}

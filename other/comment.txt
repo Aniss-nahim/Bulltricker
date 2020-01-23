@@ -1,0 +1,27 @@
+-kandon bli had (Location).x + d * _palyer mab9a 3ndha m3na f'mouvement dial Dame O King, 
+cause> pawn howa lwahid li khasso dima ymxi l9dam
+
+-structure Player mafaytch lina khdemna biha
+
+-n9edro nzido wahed attr "id" fstructure dial Piece
+
+-attr:"CellType" dial Cell mafaytch lina khdemna bih, aslane howa ghir champ calcule, 
+hta mn getCellType khdemna biha mrra wehda f initialisation, o manf3atna bwalo mn be3d
+
+-typedef struct{
+    char CellType;
+    Piece *Object;
+}Cell;  XXXdelXXX
+
+
+- ila hydna attr:"CellType" anhydo m3ah hta Structure Cell
+et voici Structure dial Board jdida
+
+typedef struct{
+    Piece *Matrix[15][15];
+    Location kingLocation[2];
+}Board;
+
+- fker m3aya kifax momkin n9essmo hdok les fonction dial action.c (function.c), bax ywelli dakchi khfif
+- gelt 3lach kola piece ndiro liha les fonctions propre dalha  f'fichier bo7dha
+wla ...

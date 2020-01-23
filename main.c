@@ -1,81 +1,49 @@
-#include    "header.h"
+/**
+    ************* Welcome to the BULLTRICKER game *****************
+                         ©opyRight 2019
+**/
+
+#include    "./include/action.h"
+#include    "./include/cli.h"
+
 
 void main(){
-    initBoard(bullBoard);
+    Move *lastMove = NULL;
+    bool checkMatPlayer1,checkMatPlayer2;
+    initBoard(PLAYER1);
+    initStack();
+    splash();
+    strcpy(_namePlayer1, "Ayoub");strcpy(_namePlayer2, "Aniss");
+    //readPlayersName(_namePlayer1, _namePlayer2);
+    checkMatPlayer1 = checkMatPlayer2 = false;
+    while(!checkMatPlayer1 && !checkMatPlayer2){
+        system("cls");
 
-}
-
-void initBoard(Board bullBoard){
-    int row, col;
-    for(row=0; row<LENGHTBOARD; row++){
-        for(col=0; col<LENGHTBOARD; col++){
-            bullBoard[row][col].CellType = getCellType(row, col);
-            bullBoard[row][col].Object = initCell(row, col);
-        }
+        //UI
+        displayBoard();
+        displayBar(lastMove);
+        displayStack(_stackPieces,"stack");
+         if(getch() == 27)
+            exit(-1);
+        //gameController
+        do{
+            //readMove
+            lastMove = readMove(lastMove);
+        }while(!moveBullPiece(lastMove));
+        //checkMat test
+        checkMatPlayer1 = checkMat(PLAYER1);
+        checkMatPlayer2 = checkMat(PLAYER2);
+        //switch turn
+        _player *= -1;
     }
-    
-}
-
-Piece *initCell(int row, int col){
-    switch(true){
-        case A(1) == row && !(col%2):
-            return creatPiece(PLAYER2, DAME);
-        break;
-        
-        case A(2) == row && !(col%2):
-        case H(2) == row && col%2 :
-            return creatPiece(PLAYER2, PAWN);
-        break;
-
-        case A(1) == row && col == N(4):
-            return creatPiece(PLAYER2, KING);
-        break;
-        
-        case A(7) == row && !(col%2):
-            return creatPiece(PLAYER1, DAME);
-        break;
-
-        case A(6) == row && !(col%2):
-        case H(7) == row && col%2 :
-            return creatPiece(PLAYER1, PAWN);
-        break;
-
-        case A(7) == row && col == N(4):
-            return creatPiece(PLAYER1, KING);
-        break;
-        default:
-            return NULL;
+    // show board state for the winier
+    system("cls");
+    displayBoard();
+    displayBar(lastMove);
+    displayStack(_stackPieces,"stack");
+    if(checkMatPlayer1){
+        printf(" %s, you Win !!!", _namePlayer2 );
+    }else{
+        printf(" %s, you Win !!!", _namePlayer1 );
     }
-    
-
-}
-
-Piece * creatPiece(int player, char kind ){
-    Piece *p = Malloc(Piece);
-    p->kind = kind;
-    p->ownerPlayer = player;
-    return p;
-}
-
-char getKind
-
-char getCellType(int row, int col){
-    switch(true){
-        case !(row % 2) && !(col % 2):
-            return  PROHIBITED_CELL;
-        break;
-        case !(row % 2) && col % 2:
-            return  HORIZONTAL_CELL;
-        break;
-        case row % 2 && !(col % 2):
-            return  VERTICAL_CELL;
-        break;
-        case row % 2 && col % 2:
-            return  ROYAL_CELL;
-        break;
-    }
-}
-
-void DisplayBoard(){
-    
 }
