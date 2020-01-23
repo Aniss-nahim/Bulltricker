@@ -16,7 +16,7 @@ void main(){
     strcpy(_namePlayer1, "Ayoub");strcpy(_namePlayer2, "Aniss");
     //readPlayersName(_namePlayer1, _namePlayer2);
     checkMatPlayer1 = checkMatPlayer2 = false;
-    while(!checkMatPlayer1 || !checkMatPlayer2){
+    while(!checkMatPlayer1 && !checkMatPlayer2){
         system("cls");
 
         //UI
@@ -36,6 +36,11 @@ void main(){
         //switch turn
         _player *= -1;
     }
+    // show board state for the winier
+    system("cls");
+    displayBoard();
+    displayBar(lastMove);
+    displayStack(_stackPieces,"stack");
     if(checkMatPlayer1){
         printf(" %s, you Win !!!", _namePlayer2 );
     }else{

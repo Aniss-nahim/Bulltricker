@@ -137,7 +137,6 @@ bool moveBullPiece(Move *movement){
 bool isValideMove(Move movement){
     Cell *fromCell = getCell(movement.from); 
     Cell *toCell = getCell(movement.to);
-    printf("fromCEll  %s" , fromCell );
     return(  fromCell && ( !isEmptyCell(*fromCell) && isMyPiece(*fromCell) )
         &&  toCell  );
 }

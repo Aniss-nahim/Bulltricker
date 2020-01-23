@@ -35,7 +35,7 @@ static char shape(int i, int j){
 void displayBoard(){
 		int row,col;
 		char c[15];
-		
+		printf("\t\t\t\t\t\t %s\n",_namePlayer2);
 		puts("\n      +---------------------------------------------------------------------------------------+");
 		for(col=1 ; col<LENGHTBOARD ; col+=2){c[col] = shape( 0, col);}
 	printf("  %2s  | . |   %c   | . |   %c   | . |   %c   | . |   %c   | . |   %c   | . |   %c   | . |   %c   | . |\n","H1",c[1], c[3], c[5], c[7], c[9], c[11], c[13]);
@@ -97,6 +97,7 @@ void displayBoard(){
 	printf("  %2s  | . |   %c   | . |   %c   | . |   %c   | . |   %c   | . |   %c   | . |   %c   | . |   %c   | . |\n","H8",c[1], c[3], c[5], c[7], c[9], c[11], c[13]);
 		puts("      +---------------------------------------------------------------------------------------+");
 		printf("       %s    %s     %s   %s     %s    %s    %s    %s    %s    %s    %s    %s    %s    %s     %s","V1","N1","V2","N2","V3","N3","V4","N4","V5","N5","V6","N6","V7","N7","V8");
+	printf("\n\n\t\t\t\t\t\t %s",_namePlayer1);
 
 			printf("\n\n");
 }

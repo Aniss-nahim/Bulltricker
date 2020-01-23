@@ -2,8 +2,7 @@
 
 bool isLegaleMoveForQueen(Move move){
     Location from = move.from , to = move.to;
-    printf("isLegaleMoveForQueen ");getch();
-    //from.x + d * _player ma3ndha ma3na fQueen o King
+    
     if((( from.x - 1 == to.x && from.y + 1 == to.y) ||
         ( from.x - 1 == to.x && from.y - 1 == to.y) ||
         ( from.x + 1 == to.x && from.y - 1 == to.y) ||
@@ -33,9 +32,9 @@ bool isLegaleMoveForQueen(Move move){
             } 
 
             if( (from.x - to.x) %2 == 0){ // mouvement verticale en range  avec/sans prise
-                printf(" n9zz");
+                
                 if(from.x < to.x){
-                    printf(" foo9");
+                    
                     int i;
                     Location parcPceLoc, tempKingLoc ; 
                     parcPceLoc.y = tempKingLoc.y = from.y; 
@@ -61,7 +60,7 @@ bool isLegaleMoveForQueen(Move move){
                     }
                     return true;
                 }else{ // (from.x > to.x)
-                    printf(" ta7t ");
+                    
                     int i;
                     Location parcPceLoc, tempKingLoc ; 
                     parcPceLoc.y = tempKingLoc.y = from.y; 
@@ -145,9 +144,9 @@ bool isLegaleMoveForQueen(Move move){
             } 
 
             if( (from.y - to.y) %2 == 0){ // mouvement verticale en range  avec/sans prise
-                printf(" n9zz");
+                
                 if(from.y < to.y){
-                    printf(" liman");
+                    
                     int i;
                     Location parcPceLoc, tempKingLoc ; 
                     parcPceLoc.x = tempKingLoc.x = from.x; 
@@ -173,7 +172,7 @@ bool isLegaleMoveForQueen(Move move){
                     }
                     return true;
                 }else{ // (from.y > to.y)
-                    printf(" lissar ");
+                    
                     int i;
                     Location parcPceLoc, tempKingLoc ; 
                     parcPceLoc.x = tempKingLoc.x = from.x; 
