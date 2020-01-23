@@ -14,7 +14,7 @@ MAIN = main.c
 COMPILER_FLAGS = -w -Wl
 
 #Command execution 
-all : main.o cli.o action.o dame.o pawn.o king.o bullStack.o linker
+all : main.o cli.o action.o queen.o pawn.o king.o bullStack.o linker
 
 
 action : action.o linker
@@ -23,7 +23,7 @@ bullStack : bullStack.o linker
 	
 cli : cli.o linker
 	
-dame : dame.o linker
+queen : queen.o linker
 	
 king : king.o linker
 	
@@ -40,8 +40,8 @@ bullStack.o :
 cli.o :
 			$(CC) -c $(SOURCE)cli.c -o $(OBJECT)cli.o
 
-dame.o :
-			$(CC) -c $(SOURCE)dame.c -o $(OBJECT)dame.o
+queen.o :
+			$(CC) -c $(SOURCE)queen.c -o $(OBJECT)queen.o
 
 king.o :
 			$(CC) -c $(SOURCE)king.c -o $(OBJECT)king.o
