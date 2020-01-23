@@ -61,5 +61,8 @@ clean_o :
 linker : 
 		$(CC) -o $(TARGETPATH)$(EXEC) $(OBJECT)*.o
 
+count:
+	find src include -name '*.*' | xargs wc -l
+	
 run :
 	$(TARGETPATH)$(EXEC)
