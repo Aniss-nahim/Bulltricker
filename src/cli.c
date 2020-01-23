@@ -7,9 +7,7 @@ void splash(){
 	puts("\t\t|  _ <' ( ) ( )  | |   | |     | |  ( '__) | |  /'___) | , <    /'__`\\ ( '__) ");
 	puts("\t\t| (_) ) | \\_/ |  | |   | |     | |   | |   | | ( (___  | |\\`\\  (  ___/ | |    ");
 	puts("\t\t(____/' `\\___/' (___) (___)    (_)   (_)   (_)  \\____) (_) (_) `\\____) (_)    ");
-
 	getch();
-
 }
 
 void readPlayersName(char str1[],char str2[]){
@@ -142,7 +140,6 @@ static int inputPos(char Str[]){
 }
 
 static bool inputValid(char Str1[], char Str2[]){
-	
 	return (	strlen(Str1) == 2	&& 	strlen(Str2) == 2	
 				&&(
 					((Str1[0]=='A' || Str1[0]=='a') && ('1'<=Str1[1] && Str1[1]<='7') )	
@@ -158,7 +155,7 @@ bool readMove(Move *mv){
 	char Loc1[3], Loc2[3];
 	Location fromLoc, toLoc;
 	start:
-	printf("\n\nfrom (x,y)\t?>\t");
+	printf("\n\n\tfrom (x,y)\t?>\t");
 	fflush(stdin);
 	scanf("%s %s",Loc1, Loc2);
 	if ( inputValid(Loc1, Loc2) ){
@@ -169,7 +166,7 @@ bool readMove(Move *mv){
 		goto start;
 	}
 	
-    printf("to (x,y)\t?>\t");
+    printf("\tto (x,y)\t?>\t");
 	scanf("%s%s",Loc1,Loc2);
     if( inputValid(Loc1, Loc2) ){
         toLoc.x = inputPos(Loc1);

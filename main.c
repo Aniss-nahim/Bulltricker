@@ -36,12 +36,14 @@ void main(){
         readMove(&lasteMove);
         
         //gameController
-        isLegaleMove(lasteMove);
+        moveBullPiece(lasteMove);
         if ( checkMat(PLAYER1) ){
             printf(" %s, you Win !!!", _namePlayer2 );
+            return ;
         }else 
         if ( checkMat(PLAYER2) ){
             printf(" %s, you Win !!!", _namePlayer1 );
+            return ;
         }
     
     }
