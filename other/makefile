@@ -11,6 +11,7 @@ OBJS = myMain.c
 #CC specifies which compiler we're using
 CC = gcc
 
+#includes for lib SDL2
 INCLUDE_PATHS = -IC:\mingwDev\SDL2\include
 
 LIBRARY_PATHS = -LC:\mingwDev\SDL2\lib
@@ -21,6 +22,9 @@ OBJ_NAME = game.exe
 #This is the target that compiles our executable
 all : $(OBJS)
 	$(CC) $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(OBJ_NAME)
+
+SDLExec :  $(MAIN)
+	$(CC) $(MAIN) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(EXEC)
 
 clean:
 	del game.exe

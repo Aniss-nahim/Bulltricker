@@ -1,13 +1,13 @@
 #include    "../include/action.h"
 
-bool isLegaleMoveForDame(Move move){
+bool isLegaleMoveForQueen(Move move){
     Location from = move.from , to = move.to;
-    printf("isLegaleMoveForDame ");getch();
-    //from.x + d * _player ma3ndha ma3na fDame o King
-    if( ( from.x - 1 == to.x && from.y + 1 == to.y) ||
+    printf("isLegaleMoveForQueen ");getch();
+    //from.x + d * _player ma3ndha ma3na fQueen o King
+    if((( from.x - 1 == to.x && from.y + 1 == to.y) ||
         ( from.x - 1 == to.x && from.y - 1 == to.y) ||
         ( from.x + 1 == to.x && from.y - 1 == to.y) ||
-        ( from.x + 1 == to.x && from.y + 1 == to.y) )
+        ( from.x + 1 == to.x && from.y + 1 == to.y) ) && isEmptyCell(*getCell(to)) )
         return true;
     if( from.x % 2 == 0 ){
         
@@ -51,7 +51,7 @@ bool isLegaleMoveForDame(Move move){
                             parcPceLoc.x = i + 2;
                             tempKingLoc.x = i + 3;
                             
-                            if(isEmptyCell( *getCell(parcPceLoc) ) && isEmptyCell( *getCell(tempKingLoc) )){
+                            if(isEmptyCell( *getCell(parcPceLoc) ) && isEmptyCell( *getCell(tempKingLoc) ) && !isMyPiece(*parCell) ){
                                 eatPiece(&parCell);
                                 i+=2;
                                 continue;
@@ -77,7 +77,7 @@ bool isLegaleMoveForDame(Move move){
                             parcPceLoc.x = i - 2;
                             tempKingLoc.x = i - 3;
                             
-                            if(isEmptyCell( *getCell(parcPceLoc) ) && isEmptyCell( *getCell(tempKingLoc) )){
+                            if(isEmptyCell( *getCell(parcPceLoc) ) && isEmptyCell( *getCell(tempKingLoc) ) && !isMyPiece(*parCell)){
                                 eatPiece(&parCell);
                                 i-=2;
                                 continue;
@@ -95,7 +95,7 @@ bool isLegaleMoveForDame(Move move){
         if( from.x == to.x && from.y != to.y ){ // mouvement horizontale en colonne
             if( (from.y - to.y)  == 2 || (from.y - to.y)  == -2  ){ 
                 Cell * cTo = getCell(to);
-                if(!isEmptyCell(*cTo) && cTo->Object->PlayerOwner == -_player ){// prise en colone 
+                if(!isEmptyCell(*cTo) && !isMyPiece(*cTo) ){// prise en colone 
                     eatPiece(&cTo);
                 }//sinon mouvement simple d'un pas
 
@@ -163,7 +163,7 @@ bool isLegaleMoveForDame(Move move){
                             parcPceLoc.y = i + 2;
                             tempKingLoc.y = i + 3;
                             
-                            if(isEmptyCell( *getCell(parcPceLoc) ) && isEmptyCell( *getCell(tempKingLoc) )){
+                            if(isEmptyCell( *getCell(parcPceLoc) ) && isEmptyCell( *getCell(tempKingLoc) ) && !isMyPiece(*parCell) ){
                                 eatPiece(&parCell);
                                 i+=2;
                                 continue;
@@ -189,7 +189,7 @@ bool isLegaleMoveForDame(Move move){
                             parcPceLoc.y = i - 2;
                             tempKingLoc.y = i - 3;
                             
-                            if(isEmptyCell( *getCell(parcPceLoc) ) && isEmptyCell( *getCell(tempKingLoc) )){
+                            if(isEmptyCell( *getCell(parcPceLoc) ) && isEmptyCell( *getCell(tempKingLoc) ) && !isMyPiece(*parCell)){
                                 eatPiece(&parCell);
                                 i-=2;
                                 continue;
@@ -205,7 +205,7 @@ bool isLegaleMoveForDame(Move move){
         if( from.y == to.y && from.x != to.x ){ // mouvement horizontale en colonne
             if( (from.x - to.x)  == 2 || (from.x - to.x)  == -2  ){ 
                 Cell * cTo = getCell(to);
-                if(!isEmptyCell(*cTo) && cTo->Object->PlayerOwner == -_player ){// prise en colone 
+                if(!isEmptyCell(*cTo) && !isMyPiece(*cTo) ){// prise en colone 
                     eatPiece(&cTo);
                 }//sinon mouvement simple d'un pas
 
@@ -234,10 +234,4 @@ bool isLegaleMoveForDame(Move move){
     }
     return false;
 
-}
-void eatPiece(Cell ** cellAssPieaceToEat){
-    /*
-        empiler
-    (*cellAssPieaceToEat)->Object */
-    (*cellAssPieaceToEat)->Object = NULL;
 }

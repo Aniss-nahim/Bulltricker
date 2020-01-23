@@ -20,28 +20,7 @@ void readPlayersName(char str1[],char str2[]){
 	getch();
 }
 
-void displayBoard(){
-    int row,col;
-    Cell c;
-    for(row=0;row<LENGHTBOARD;row++){
-        printf("%c%d\t",(row%2==0)?'H':'A', row/2+1);
-        for(col=0;col<LENGHTBOARD;col++){
-            c = _board.Matrix[row][col];
-            if(c.Object){
-                printf(" %c(%c-%d) ",c.CellType,c.Object->kind,c.Object->PlayerOwner);
-            }else{
-                 printf(" %c(---) ",c.CellType);
-            }
-        }
-        printf("\n\n");
-    }
-    printf("  \t");
-    for(col=0;col<LENGHTBOARD;col++){
-        printf("   %c%d   ",(col%2==0)?'V':'N', col/2+1);
-    }
-}
-
-char shape(int i, int j){
+static char shape(int i, int j){
 	char r;
 	Cell C = _board.Matrix[i][j];
 	if(C.Object){
@@ -53,11 +32,11 @@ char shape(int i, int j){
 	
 }
 
-void __displayBoard(){
+void displayBoard(){
 		int row,col;
 		char c[15];
 		
-		puts("      +---------------------------------------------------------------------------------------+");
+		puts("\n      +---------------------------------------------------------------------------------------+");
 		for(col=1 ; col<LENGHTBOARD ; col+=2){c[col] = shape( 0, col);}
 	printf("  %2s  | . |   %c   | . |   %c   | . |   %c   | . |   %c   | . |   %c   | . |   %c   | . |   %c   | . |\n","H1",c[1], c[3], c[5], c[7], c[9], c[11], c[13]);
 		puts("      |---+-------+---+-------+---+-------+---+-------+---+-------+---+-------+---+-------+---|");
@@ -120,6 +99,20 @@ void __displayBoard(){
 		printf("       %s    %s     %s   %s     %s    %s    %s    %s    %s    %s    %s    %s    %s    %s     %s","V1","N1","V2","N2","V3","N3","V4","N4","V5","N5","V6","N6","V7","N7","V8");
 
 			printf("\n\n");
+}
+
+void displayBar(Move move){
+	printf("\n\t%s's turn",(_player == PLAYER1 )?_namePlayer1:_namePlayer2);
+        printf("\t\t\t%s","00:00");
+        printf("\t\t\tlast move %c%d,%c%d > %c%d,%c%d",
+            (move.from.x%2)?'A':'H',
+                move.from.x/2+1,
+                    (move.from.y%2)?'N':'V',
+                        move.from.y/2+1,            
+                            (move.to.x%2)?'A':'H',
+                                move.to.x/2+1,
+                                    (move.to.y%2)?'N':'V',
+                                        move.to.y/2+1);
 }
 
 static int inputPos(char Str[]){
