@@ -1,4 +1,4 @@
-#include    "../include/action.h"
+#include    "../include/controle.h"
 
 bool isLegaleMoveForPawn( Move move){
     Location from = move.from , to = move.to;

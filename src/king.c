@@ -1,4 +1,4 @@
-#include    "../include/action.h"
+#include    "../include/controle.h"
 
 bool isLegaleMoveForKing( Move move){
     Location from = move.from, to = move.to;
@@ -102,6 +102,7 @@ bool isLegaleMoveForKing( Move move){
         &&  ((c2 && isEmptyCell(*c2)) || !c2) 
         &&  ((c3 && isEmptyCell(*c3)) || !c3) );
     }    
+    return false;
     
 }
 

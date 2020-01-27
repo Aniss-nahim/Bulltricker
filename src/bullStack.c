@@ -1,4 +1,4 @@
-#include    "../include/action.h"
+#include    "../include/controle.h"
 
 // stack management
 void initStack(){
@@ -32,16 +32,3 @@ bool isEmptyStack(){
     return (_stackPieces->head == NULL);
 }
 
-void displayStack(Stack *stkPc, char *tag){
-    if(isEmptyStack())
-        return;
-	int count = 0;
-    Node * node = stkPc->head;
-    printf("\n\t%s  : ",tag);
-    while(node){
-        count++;
-        printf("(%c)%d, ", (stkPc->head->piece->PlayerOwner == PLAYER1)? toupper(stkPc->head->piece->kind) : tolower(stkPc->head->piece->kind), count);
-        node = node->next;
-    }
-	
-}

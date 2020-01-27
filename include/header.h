@@ -1,14 +1,10 @@
-// #INCLUDE
 #ifndef BullTricker
 #define BullTricker
 #include    <stdio.h>
 #include    <stdlib.h>
 #include    <stdbool.h>
 #include    <string.h>
-#include    <ctype.h>
-#include    <windows.h>
-#include    <conio.h>
-#include    <string.h>
+#include    <time.h>
 
 // #DEFINE
 #define Malloc(type) malloc(sizeof(type))
@@ -44,7 +40,7 @@ typedef struct{
 
 typedef struct{
     int PlayerOwner;
-    char kind; // Pawn=1, Queen=2, King=3
+    char kind;
 }Piece;
 
 typedef struct{
@@ -74,10 +70,9 @@ typedef struct{
 
 //Global Variables
 Board   _board;
-Stack *_stackPieces; // this stack will contain all captured pieces
+Stack * _stackPieces; // this stack will contain all captured pieces
 int     _player;
 char    _namePlayer1[15];
 char    _namePlayer2[15];
-Stack   *_stackPieces; 
 
 #endif

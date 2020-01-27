@@ -3,6 +3,7 @@
         "function.h": "c",
         "type_traits": "cpp",
         "common.h": "c",
-        "action.h": "c"
+        "action.h": "c",
+        "route.h": "c"
     }
 }

@@ -1,4 +1,4 @@
-#include    "../include/action.h"
+#include    "../include/controle.h"
 
 bool isLegaleMoveForQueen(Move move){
     Location from = move.from , to = move.to;
@@ -232,5 +232,4 @@ bool isLegaleMoveForQueen(Move move){
         }
     }
     return false;
-
 }
