@@ -39,7 +39,12 @@ enum{
     WIN_KING_1,
     WIN_KING_2,
     BACKGOUND_IMG,
-    FONT_TEXT
+    BLACK1_TURN,
+    WHITE2_TURN,
+    PAWN1_STACK,
+    QUEEN1_STACK,
+    PAWN2_STACK,
+    QUEEN2_STACK,
 };
 
 typedef struct {
@@ -59,7 +64,7 @@ bool _isGridSelected_To ;
 
 SDL_Window *window;
 SDL_Renderer *renderer;
-SDL_Texture *Texture[15]; 
+SDL_Texture *Texture[20]; 
 
 
 Location getLocation_Cursor(SDL_Rect cursor );
@@ -73,6 +78,6 @@ Shape newShape(int source, int x, int y, int w, int h);
 void draw_grid_cursor(SDL_Renderer * rend, SDL_Color color, SDL_Rect * cursor );
 void displayBoard(SDL_Renderer *rend);
 bool alert(SDL_Renderer * rend,char * Text ,int daley, int ply);
-void displaySideBar(SDL_Renderer *rend, int ply,time_t time, Move last);
+void displaySideBar(SDL_Renderer *rend, Move last);
 
 #endif

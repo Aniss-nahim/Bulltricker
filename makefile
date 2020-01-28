@@ -40,7 +40,7 @@ king : king.o linker
 main: main.o linker
 	
 pawn : pawn.o linker
-
+	
 router : router.o linker
 	
 main.o :

@@ -24,7 +24,9 @@ bool isLegaleMoveForPawn( Move move){
     if(!isEmptyCell(*getCell(to))) return false;
    
     if( (from.x - to.x) % 4 == 0  && from.x * _player > to.x * _player ){
-        
+        if(from.x % 2 != 0)// caseVerticale
+            return false;
+
         Location  kingLoc0,pieceLoc0, kingLoc1, pieceLoc1;
         pieceLoc0.y = kingLoc0.y = kingLoc1.y = pieceLoc1.y = from.y;
         kingLoc0.x = from.x - 1 * _player ;

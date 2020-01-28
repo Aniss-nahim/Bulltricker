@@ -418,8 +418,14 @@ bool alert(SDL_Renderer * rend,char * Text ,int daley, int ply){
         return false;
 }
 
-void displaySideBar(SDL_Renderer *rend, int ply,time_t time, Move lastMove){
-
+void displaySideBar(SDL_Renderer *rend, Move lastMove){ // Time_t time
+    drawImageDefault(rend,(_player == PLAYER1 )? BLACK1_TURN :WHITE2_TURN, BOARD_LENGTH + 5, 0, 339, 220 );
+    int countp1, countq1, countp2, countq2;
+    drawImageDefault(rend, PAWN1_STACK, BOARD_LENGTH + 5 , 230 , GRID_CELL_SIZE, GRID_CELL_SIZE);
+    drawImageDefault(rend, QUEEN1_STACK, BOARD_LENGTH + 5  , 230 + GRID_CELL_SIZE + 10, GRID_CELL_SIZE, GRID_CELL_SIZE );
+    
+    drawImageDefault(rend, PAWN2_STACK, BOARD_LENGTH + 5+ 20 + GRID_CELL_SIZE + 10 , 230 , GRID_CELL_SIZE, GRID_CELL_SIZE );
+    drawImageDefault(rend, QUEEN2_STACK, BOARD_LENGTH + 5+ 20 + GRID_CELL_SIZE + 10 , 230 + GRID_CELL_SIZE + 10 , GRID_CELL_SIZE, GRID_CELL_SIZE);
 }
 
 void IMGS_PREPARE(SDL_Renderer* rend){
@@ -461,10 +467,27 @@ void IMGS_PREPARE(SDL_Renderer* rend){
     surface = IMG_Load("../public/KING_2.png");
     Texture[WIN_KING_2] = SDL_CreateTextureFromSurface(rend , surface);
     SDL_FreeSurface(surface);
-    surface = IMG_Load("../public/bg.png");
+    surface = IMG_Load("../public/background.png");
     Texture[BACKGOUND_IMG] = SDL_CreateTextureFromSurface(rend , surface);
     SDL_FreeSurface(surface);
-    printf("prepare les image");
+    surface = IMG_Load("../public/black_turn.png");
+    Texture[BLACK1_TURN] = SDL_CreateTextureFromSurface(rend , surface);
+    SDL_FreeSurface(surface);
+    surface = IMG_Load("../public/white_turn.png");
+    Texture[WHITE2_TURN] = SDL_CreateTextureFromSurface(rend , surface);
+    SDL_FreeSurface(surface);
+    surface = IMG_Load("../public/pawn1_stack.png");
+    Texture[PAWN1_STACK] = SDL_CreateTextureFromSurface(rend , surface);
+    SDL_FreeSurface(surface);
+    surface = IMG_Load("../public/queen1_stack.png");
+    Texture[QUEEN1_STACK] = SDL_CreateTextureFromSurface(rend , surface);
+    SDL_FreeSurface(surface);
+    surface = IMG_Load("../public/pawn2_stack.png");
+    Texture[PAWN2_STACK] = SDL_CreateTextureFromSurface(rend , surface);
+    SDL_FreeSurface(surface);
+    surface = IMG_Load("../public/queen2_stack.png");
+    Texture[QUEEN2_STACK] = SDL_CreateTextureFromSurface(rend , surface);
+    SDL_FreeSurface(surface);
 
 }
 /*

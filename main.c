@@ -23,7 +23,9 @@ int main(int argc, char* argv[]){
                      "Create window and renderer: %s", SDL_GetError());
         return 0;
     }
+    SDL_Surface *icon = IMG_Load("public/bullT.ico");
 
+    SDL_SetWindowIcon(window,icon);
     SDL_SetWindowTitle(window, GAME_NAME);
     
     __Route(renderer);

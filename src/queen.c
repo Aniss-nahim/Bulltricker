@@ -18,16 +18,14 @@ bool isLegaleMoveForQueen(Move move){
                 Location tempKing ;
                 tempKing.x = from.x - 1;
                 tempKing.y = from.y;
-                Cell *cKK = getCell(tempKing);
-                return ( isEmptyCell(*cKK) ) ;
+                return ( isEmptyCell(*getCell(tempKing))) ;
             }
 
             if( from.x + 2 == to.x ){   // mouvement simple en range d'un seule pas
                 Location tempKing ;
                 tempKing.x = from.x + 1;
                 tempKing.y = from.y;
-                Cell *cKK = getCell(tempKing);
-                return ( isEmptyCell(*cKK) ) ;
+                return ( isEmptyCell(*getCell(tempKing)) ) ;
                     
             } 
 
@@ -96,7 +94,9 @@ bool isLegaleMoveForQueen(Move move){
                 Cell * cTo = getCell(to);
                 if(!isEmptyCell(*cTo) && !isMyPiece(*cTo) ){// prise en colone 
                     eatPiece(&cTo);
+                    return true;
                 }//sinon mouvement simple d'un pas
+                return false;
 
             }else
             if ( (from.y - to.y) % 2 == 0 ){ // mouvement simple
@@ -110,7 +110,7 @@ bool isLegaleMoveForQueen(Move move){
                             return false;
                     }
                 }else{ //(from.y > to.y)
-                    for(i = from.y - 2 ; i < to.y ; i += 2){
+                    for(i = from.y - 2 ; i > to.y ; i -= 2){
                          parcourLoc.y = i  ; 
                         if (!isEmptyCell(*getCell(parcourLoc))) 
                             return false;
@@ -206,8 +206,9 @@ bool isLegaleMoveForQueen(Move move){
                 Cell * cTo = getCell(to);
                 if(!isEmptyCell(*cTo) && !isMyPiece(*cTo) ){// prise en colone 
                     eatPiece(&cTo);
+                    return true;
                 }//sinon mouvement simple d'un pas
-
+                return false;
             }else
             if ( (from.x - to.x) % 2 == 0 ){ // mouvement simple
                 int i;
@@ -220,7 +221,7 @@ bool isLegaleMoveForQueen(Move move){
                             return false;
                     }
                 }else{ //(from.x > to.x)
-                    for(i = from.x - 2 ; i < to.x ; i += 2){
+                    for(i = from.x - 2 ; i > to.x ; i -= 2){
                          parcourLoc.x = i  ; 
                         if (!isEmptyCell(*getCell(parcourLoc))) 
                             return false;

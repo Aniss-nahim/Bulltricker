@@ -10,24 +10,22 @@ int __Route(SDL_Renderer * rend ){
     while (!quit_menu) { // menu loop
 
         SDL_Event event;
-        while (SDL_PollEvent(&event)) { 
-                goto enter;
+        while (SDL_PollEvent(&event)) {
             switch (event.type) {
                 case SDL_MOUSEBUTTONDOWN:
                 //routing
                     printf("(%d, %d) :: \n",event.motion.x, event.motion.y);
-                    if( 160 < event.motion.x && event.motion.x < 545 ){
-                        switch(event.motion.y){
-                            case 50 ... 190:
-                                enter:
+                    if( 520 < event.motion.y && event.motion.y < 575 ){
+                        switch(event.motion.x){
+                            case 287 ... 450:   //Continue
+                                /*restoreBoard(PLAYER1);
+                                restoreStack();*/
+                                printf(" | CONTINUE | ");
+                            break;
+                            case 545 ... 710:   // New game
                                 initBoard(PLAYER1);
                                 initStack();
                                 PlayGame(rend);
-                            break;
-                            case 230 ... 365:
-                                /*restoreBoard(PLAYER1);
-                                restoreStack();*/
-                                printf("call restoregame()");
                             break;
                             /*case y3 ... y3 + 385:
                                 //call something
@@ -219,6 +217,7 @@ int PlayGame(SDL_Renderer * rend ){
 
         //alert(SDL_Renderer * rend,char * Text ,int daley)
         displayBoard(rend);
+        displaySideBar(rend, lastMove);
         SDL_RenderPresent(rend);
         if(gameOver){
             

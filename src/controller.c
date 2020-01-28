@@ -120,9 +120,9 @@ bool isMyPiece(Cell cell){
 // tell the piece to move
 bool moveBullPiece(Move movement){
     bool isLegale = false;
-        m(movement);
     if(!isValideMove(movement))
         return false;
+        printf("helo");
     Piece *pieceToMove = getCell(movement.from)->Object;
     switch(pieceToMove->kind){
         case PAWN :  
@@ -155,12 +155,7 @@ bool moveBullPiece(Move movement){
 bool isValideMove(Move movement){
     Cell *fromCell = getCell(movement.from); 
     Cell *toCell = getCell(movement.to);
-    printf("fromCell %d\n",fromCell);
-    printf("!isEmptyCell(*fromCell) %d\n",!isEmptyCell(*fromCell));
-    printf(" isMyPiece(*fromCell) %d\n", isMyPiece(*fromCell));
-    printf("toCell %d\n",toCell);
-    return(  fromCell && ( !isEmptyCell(*fromCell) && isMyPiece(*fromCell) )
-        &&  toCell  );
+    return (  fromCell &&  !isEmptyCell(*fromCell) && isMyPiece(*fromCell) &&  toCell  );
 }
 
 // eat given Piece
