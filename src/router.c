@@ -122,7 +122,6 @@ int PlayGame(SDL_Renderer * rend ){
                     }
                     break;
                 case SDL_MOUSEBUTTONDOWN:
-                printf("( %d,%d)", event.motion.x, event.motion.y);
                         if( 600 < event.motion.y && event.motion.y < 630 ){
                             switch(event.motion.x){
                                 case 720 ... 800:   //Quit
@@ -167,9 +166,10 @@ int PlayGame(SDL_Renderer * rend ){
                     quit = SDL_TRUE;
                     break;
             }
-            if(grid_cursor_From.x == grid_cursor_To.x && grid_cursor_From.y == grid_cursor_To.y){
-                _isGridSelected_From = _isGridSelected_To = false;
-            }
+            if(_isGridSelected_From &&  _isGridSelected_To)
+                if(grid_cursor_From.x == grid_cursor_To.x && grid_cursor_From.y == grid_cursor_To.y){
+                    _isGridSelected_From = _isGridSelected_To = false;
+                }
             
         }
 
