@@ -2,6 +2,8 @@
 #define Controller
 
 #include    "header.h"
+#define FILE_GAME_PART "../file/restorGamePart.bin"
+#define FILE_GAME_STACK "../file/restorGameStack.bin"
 
 //Debug 
 void m(Move move);
@@ -11,7 +13,6 @@ void l(Location Loc, char *tag);
 void initBoard( int);
 void freeBoard( void);
 Piece *initCellObject(int row, int col);
-char getCellType(int row, int col);
 Piece *createPiece(int , char );
 
 // Movment setup
@@ -43,4 +44,10 @@ void makeStackEmpty();
 bool isEmptyStack();
 void displayStack(Stack *, char []);
 
+
+//file management 
+bool readBoardFromFile();
+bool writeBoardIntoFile();
+bool readStackFromFile();
+bool writeStackdIntoFile();
 #endif

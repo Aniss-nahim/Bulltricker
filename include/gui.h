@@ -45,6 +45,9 @@ enum{
     QUEEN1_STACK,
     PAWN2_STACK,
     QUEEN2_STACK,
+    KING1_WINNER,
+    KING2_WINNER,
+    SAVE_QUIT
 };
 
 typedef struct {
@@ -64,7 +67,7 @@ bool _isGridSelected_To ;
 
 SDL_Window *window;
 SDL_Renderer *renderer;
-SDL_Texture *Texture[20]; 
+SDL_Texture *Texture[25]; 
 
 
 Location getLocation_Cursor(SDL_Rect cursor );
@@ -77,7 +80,6 @@ Shape getShape(int row, int col, int ply, int kind);
 Shape newShape(int source, int x, int y, int w, int h);
 void draw_grid_cursor(SDL_Renderer * rend, SDL_Color color, SDL_Rect * cursor );
 void displayBoard(SDL_Renderer *rend);
-bool alert(SDL_Renderer * rend,char * Text ,int daley, int ply);
 void displaySideBar(SDL_Renderer *rend, Move last);
 
 #endif

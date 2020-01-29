@@ -223,7 +223,6 @@ bool onMouseEvent(SDL_MouseMotionEvent currentPos, SDL_Rect * cursor){
         cursor->y = pxl_Y * GRID_CELL_SIZE - GRID_CELL_SIZE;
         cursor->h = GRID_CELL_SIZE * 2;
     }
-    printf(">>pixel hover(%d,%d)\n",pxl_X, pxl_Y);
     return true;
 }
     
@@ -248,7 +247,6 @@ void drawImage(SDL_Renderer *rend, Shape Shp ){
 }
 
 void drawImageDefault(SDL_Renderer *rend, int  imgTag, int _X, int _Y, int _W, int _H ){
-    
     // player rectangle
     SDL_Rect rectplayer;
     SDL_QueryTexture(Texture[imgTag], NULL, NULL, &rectplayer.w, &rectplayer.h);
@@ -380,128 +378,71 @@ void displayBoard(SDL_Renderer *rend){
     }
 }
 
-bool alert(SDL_Renderer * rend,char * Text ,int daley, int ply){
-        TTF_Init();
-        TTF_Font *font = TTF_OpenFont("../public/font.ttf",70);
-        SDL_Color white = {255,255,255};
-        SDL_Surface * surface = TTF_RenderText_Solid(font,Text,white);
-        SDL_Rect dest;
-        SDL_Texture* Tture;
-        Tture = SDL_CreateTextureFromSurface(rend, surface);
-        SDL_QueryTexture(Tture, NULL, NULL, &dest.w, &dest.h);
-        dest.x = 180;
-        dest.y = 240;
-
-
-        // draw the image to the window
-        SDL_RenderClear(rend);
-        SDL_RenderCopy(rend, Tture, NULL, &dest);
-        drawImage(rend,newShape((ply == PLAYER1)? WIN_KING_1 : WIN_KING_2, INDEX(9), INDEX(6), 4, 4) );
-        
-        SDL_RenderPresent(rend);
-        SDL_FreeSurface(surface);
-
-        // wait a few seconds
-        SDL_Delay(daley);
-        
-        TTF_CloseFont(font);
-        SDL_Event event;
-        while (1)
-        while (SDL_PollEvent(&event)) {
-            if((event.type== SDL_KEYDOWN && event.key.keysym.sym == SDLK_RETURN)
-            ||( SDL_MOUSEBUTTONDOWN && event.motion.x / (4*GRID_CELL_SIZE) == INDEX(9) && event.motion.y / (4*GRID_CELL_SIZE) == INDEX(6) ))
-            return true;
-            else 
-            if (event.type == SDL_QUIT)
-                return false;
-        }
-        return false;
-}
-
 void displaySideBar(SDL_Renderer *rend, Move lastMove){ // Time_t time
-    drawImageDefault(rend,(_player == PLAYER1 )? BLACK1_TURN :WHITE2_TURN, BOARD_LENGTH + 5, 0, 339, 220 );
-    int countp1, countq1, countp2, countq2;
-    drawImageDefault(rend, PAWN1_STACK, BOARD_LENGTH + 5 , 230 , GRID_CELL_SIZE, GRID_CELL_SIZE);
-    drawImageDefault(rend, QUEEN1_STACK, BOARD_LENGTH + 5  , 230 + GRID_CELL_SIZE + 10, GRID_CELL_SIZE, GRID_CELL_SIZE );
+    drawImageDefault(rend,(_player == PLAYER1 )? BLACK1_TURN :WHITE2_TURN, BOARD_LENGTH + 5, 0, 335, 220 );
     
-    drawImageDefault(rend, PAWN2_STACK, BOARD_LENGTH + 5+ 20 + GRID_CELL_SIZE + 10 , 230 , GRID_CELL_SIZE, GRID_CELL_SIZE );
-    drawImageDefault(rend, QUEEN2_STACK, BOARD_LENGTH + 5+ 20 + GRID_CELL_SIZE + 10 , 230 + GRID_CELL_SIZE + 10 , GRID_CELL_SIZE, GRID_CELL_SIZE);
+    int countRows = 0, countCols = 0, index;
+    Node * node = _stackPieces->head;
+    while(node){
+    
+        if( BOARD_LENGTH + 20 + (countCols+1)*(GRID_CELL_SIZE + 5) > WINDOW_WEIGHT ){
+            countCols = 0;
+            countRows++;
+        }
+        
+        if( node->piece->PlayerOwner == PLAYER1 ){
+            if(node->piece->kind == PAWN)
+                index = PAWN1_STACK;
+            else   
+                index = QUEEN1_STACK;
+        }else{
+            if(node->piece->kind == PAWN)
+                index = PAWN2_STACK;
+            else   
+                index = QUEEN2_STACK;
+        }
+        
+        drawImageDefault(rend, index, BOARD_LENGTH + 20 + countCols*(GRID_CELL_SIZE + 5) , 230 + countRows * (GRID_CELL_SIZE + 10), GRID_CELL_SIZE, GRID_CELL_SIZE);   
+        
+        countCols ++;
+      node = node->next;
+    }
+    drawImageDefault(rend, SAVE_QUIT, BOARD_LENGTH + 5, 570 , 335,100);
 }
+
 
 void IMGS_PREPARE(SDL_Renderer* rend){
     SDL_Surface* surface;
+    char fileSource[25][30]={
+                            "../public/king1.png",
+                            "../public/pawn1_V.png",
+                            "../public/pawn1_H.png",
+                            "../public/queen1_V.png",
+                            "../public/queen1_H.png",
+                            "../public/king2.png",
+                            "../public/pawn2_V.png",
+                            "../public/pawn2_H.png",
+                            "../public/queen2_V.png",
+                            "../public/queen2_H.png",
+                            "../public/KING_1.png",
+                            "../public/KING_2.png",
+                            "../public/background.png",
+                            "../public/black_turn.png",
+                            "../public/white_turn.png",
+                            "../public/pawn1_stack.png",
+                            "../public/queen1_stack.png",
+                            "../public/pawn2_stack.png",
+                            "../public/queen2_stack.png",
+                            "../public/King1Winner.png",
+                            "../public/King2Winner.png",
+                            "../public/save_quit.png"
+                        };
+    for (int  i = 0; i < 25; i++){
+        surface = IMG_Load(fileSource[i]);
+        Texture[i] = SDL_CreateTextureFromSurface(rend , surface);
+        SDL_FreeSurface(surface);
+    }
+    
     // load the image data into the graphics hardware's memory
-    surface = IMG_Load("../public/king1.png");
-    Texture[KING_1] = SDL_CreateTextureFromSurface(rend , surface);
-    SDL_FreeSurface(surface);
-    surface = IMG_Load("../public/pawn1_V.png");
-    Texture[PAWN_1_V] = SDL_CreateTextureFromSurface(rend , surface);
-    SDL_FreeSurface(surface);
-    surface = IMG_Load("../public/pawn1_H.png");
-    Texture[PAWN_1_H] = SDL_CreateTextureFromSurface(rend , surface);
-    SDL_FreeSurface(surface);
-    surface = IMG_Load("../public/queen1_V.png");
-    Texture[QUEEN_1_V] = SDL_CreateTextureFromSurface(rend , surface);
-    SDL_FreeSurface(surface);
-    surface = IMG_Load("../public/queen1_H.png");
-    Texture[QUEEN_1_H] = SDL_CreateTextureFromSurface(rend , surface);
-    SDL_FreeSurface(surface);
-    surface = IMG_Load("../public/king2.png");
-    Texture[KING_2] = SDL_CreateTextureFromSurface(rend , surface);
-    SDL_FreeSurface(surface);
-    surface = IMG_Load("../public/pawn2_V.png");
-    Texture[PAWN_2_V] = SDL_CreateTextureFromSurface(rend , surface);
-    SDL_FreeSurface(surface);
-    surface = IMG_Load("../public/pawn2_H.png");
-    Texture[PAWN_2_H] = SDL_CreateTextureFromSurface(rend , surface);
-    SDL_FreeSurface(surface);
-    surface = IMG_Load("../public/queen2_V.png");
-    Texture[QUEEN_2_V] = SDL_CreateTextureFromSurface(rend , surface);
-    SDL_FreeSurface(surface);
-    surface = IMG_Load("../public/queen2_H.png");
-    Texture[QUEEN_2_H] = SDL_CreateTextureFromSurface(rend , surface);
-    SDL_FreeSurface(surface);
-    surface = IMG_Load("../public/KING_1.png");
-    Texture[WIN_KING_1] = SDL_CreateTextureFromSurface(rend , surface);
-    SDL_FreeSurface(surface);
-    surface = IMG_Load("../public/KING_2.png");
-    Texture[WIN_KING_2] = SDL_CreateTextureFromSurface(rend , surface);
-    SDL_FreeSurface(surface);
-    surface = IMG_Load("../public/background.png");
-    Texture[BACKGOUND_IMG] = SDL_CreateTextureFromSurface(rend , surface);
-    SDL_FreeSurface(surface);
-    surface = IMG_Load("../public/black_turn.png");
-    Texture[BLACK1_TURN] = SDL_CreateTextureFromSurface(rend , surface);
-    SDL_FreeSurface(surface);
-    surface = IMG_Load("../public/white_turn.png");
-    Texture[WHITE2_TURN] = SDL_CreateTextureFromSurface(rend , surface);
-    SDL_FreeSurface(surface);
-    surface = IMG_Load("../public/pawn1_stack.png");
-    Texture[PAWN1_STACK] = SDL_CreateTextureFromSurface(rend , surface);
-    SDL_FreeSurface(surface);
-    surface = IMG_Load("../public/queen1_stack.png");
-    Texture[QUEEN1_STACK] = SDL_CreateTextureFromSurface(rend , surface);
-    SDL_FreeSurface(surface);
-    surface = IMG_Load("../public/pawn2_stack.png");
-    Texture[PAWN2_STACK] = SDL_CreateTextureFromSurface(rend , surface);
-    SDL_FreeSurface(surface);
-    surface = IMG_Load("../public/queen2_stack.png");
-    Texture[QUEEN2_STACK] = SDL_CreateTextureFromSurface(rend , surface);
-    SDL_FreeSurface(surface);
 
 }
-/*
-void displayStack(Stack *stkPc, char *tag){
-    if(isEmptyStack())
-        return;
-	int count = 0;
-    Node * node = stkPc->head;
-    printf("\n\t%s  : ",tag);
-    while(node){
-        count++;
-        printf("(%c)%d, ", (stkPc->head->piece->PlayerOwner == PLAYER1)? toupper(stkPc->head->piece->kind) : tolower(stkPc->head->piece->kind), count);
-        node = node->next;
-    }
-	
-}
-*/

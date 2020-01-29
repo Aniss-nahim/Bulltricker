@@ -10,7 +10,7 @@ void initBoard(int rolePlayer){
     _player = rolePlayer;
     for(int row=0; row<LENGHTBOARD; row++){
         for(int col=0; col<LENGHTBOARD; col++){
-            _board.Matrix[row][col].CellType = getCellType(row, col);
+            //_board.Matrix[row][col].CellType = getCellType(row, col);
             _board.Matrix[row][col].Object = initCellObject(row, col);
         }
     }
@@ -78,20 +78,6 @@ void freeBoard( void){
     }
 }
 
-char getCellType(int row, int col){ //ymken t7yed
-    if(row%2 == 0){
-        if(col%2 == 0)
-            return  PROHIBITED_CELL; // pair pair
-        else
-            return  HORIZONTAL_CELL; // pair impair
-    }else{
-        if(col%2 == 0)
-            return  VERTICAL_CELL; // impair pair
-        else
-            return  ROYAL_CELL; // impair impair
-    }
-}
-
 // check if it about a valide location [0,14]
 bool isValideLocation(Location position){
     return (position.x < LENGHTBOARD && position.y < LENGHTBOARD && position.x >=0 && position.y >=0);
@@ -99,7 +85,7 @@ bool isValideLocation(Location position){
 
 // return NULL if the Cell doesn't exist
 Cell *getCell(Location position){
-    return ( isValideLocation(position) && getCellType(position.x,position.y)!= PROHIBITED_CELL )
+    return ( isValideLocation(position) && !(position.x % 2 == 0 && position.y % 2 ==0 ) )
                 ?&_board.Matrix[position.x][position.y]
                 :NULL;
 }
@@ -122,7 +108,6 @@ bool moveBullPiece(Move movement){
     bool isLegale = false;
     if(!isValideMove(movement))
         return false;
-        printf("helo");
     Piece *pieceToMove = getCell(movement.from)->Object;
     switch(pieceToMove->kind){
         case PAWN :  
@@ -160,7 +145,6 @@ bool isValideMove(Move movement){
 
 // eat given Piece
 void eatPiece(Cell ** cellOfPieaceToEat){
-
     pushToStack((*cellOfPieaceToEat)->Object);
     (*cellOfPieaceToEat)->Object = NULL;
 }
@@ -173,3 +157,57 @@ Move getMove(Location Loc_From, Location Loc_To ){
     move.to.y = Loc_To.y ;
     return move ;
 }
+
+bool readBoardFromFile(){
+    printf("readBoardFromFile\n");
+    FILE *file = fopen(FILE_GAME_PART, "rb");
+    if(!file)
+        return false;
+    
+    fread(  &_player , sizeof( int ), 1 , file);
+    if(feof(file))
+        return false;
+    
+    Location Loc;
+    Piece Pce;
+    for(int row = 0; row < LENGHTBOARD ; row++ ){
+        for(int col = 0; col < LENGHTBOARD ; col++ ){
+            _board.Matrix[row][col].Object =  NULL;
+        }
+    }
+
+    Piece * piece;
+    while ( !feof( file ) ){
+        fread(  &Loc , sizeof( Location ), 1 , file);
+        fread(  &Pce , sizeof( Piece ), 1 , file);
+        piece = createPiece( Pce.PlayerOwner, Pce.kind);
+        _board.Matrix[Loc.x][Loc.y].Object = piece;
+        if(piece->kind == KING ){
+            _board.kingLocation[(piece->PlayerOwner == PLAYER1 )? 0: 1] = Loc;
+        }
+   }
+
+    fclose(file);
+    return true;
+}
+
+bool  writeBoardIntoFile(){
+    printf("writeBoardIntoFile");
+    FILE *file = fopen(FILE_GAME_PART, "wb");
+    
+    fwrite(  &_player , sizeof( int ), 1 , file);
+    Location Loc;
+    for(int row = 0; row < LENGHTBOARD ; row++ ){
+        for(int col = 0; col < LENGHTBOARD ; col++ ){
+            if(_board.Matrix[row][col].Object !=  NULL ){
+                Loc.x = row;
+                Loc.y = col;
+                fwrite(  &Loc , sizeof( Location ), 1 , file);
+                fwrite(  _board.Matrix[row][col].Object , sizeof( Piece ), 1 , file);
+            }
+        }
+    }
+    fclose(file);
+    return true;
+}
+

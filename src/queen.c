@@ -90,9 +90,12 @@ bool isLegaleMoveForQueen(Move move){
 
         }else 
         if( from.x == to.x && from.y != to.y ){ // mouvement horizontale en colonne
-            if( (from.y - to.y)  == 2 || (from.y - to.y)  == -2  ){ 
-                Cell * cTo = getCell(to);
-                if(!isEmptyCell(*cTo) && !isMyPiece(*cTo) ){// prise en colone 
+            Cell * cTo = getCell(to);
+            if( (from.y - to.y)  == 2 || (from.y - to.y)  == -2  ){
+                
+                if( isEmptyCell(*cTo))
+                    return true;
+                if( !isMyPiece(*cTo) ){// prise en colone 
                     eatPiece(&cTo);
                     return true;
                 }//sinon mouvement simple d'un pas
@@ -103,6 +106,8 @@ bool isLegaleMoveForQueen(Move move){
                 int i;
                 Location parcourLoc;
                 parcourLoc.x = from.x ;
+                if( !isEmptyCell(*cTo)) 
+                    return false;
                 if(from.y < to.y){
                     for(i = from.y + 2 ; i < to.y ; i += 2){
                          parcourLoc.y = i  ; 
@@ -202,15 +207,19 @@ bool isLegaleMoveForQueen(Move move){
             }
         }else 
         if( from.y == to.y && from.x != to.x ){ // mouvement horizontale en colonne
+            Cell * cTo = getCell(to);
             if( (from.x - to.x)  == 2 || (from.x - to.x)  == -2  ){ 
-                Cell * cTo = getCell(to);
-                if(!isEmptyCell(*cTo) && !isMyPiece(*cTo) ){// prise en colone 
+                if( isEmptyCell(*cTo))
+                    return true;
+                if( !isMyPiece(*cTo)  ){// prise en colone 
                     eatPiece(&cTo);
                     return true;
-                }//sinon mouvement simple d'un pas
-                return false;
+                }
+                return false;//sinon mouvement simple d'un pas
             }else
             if ( (from.x - to.x) % 2 == 0 ){ // mouvement simple
+                if(!isEmptyCell(*cTo))
+                    return false;
                 int i;
                 Location parcourLoc;
                 parcourLoc.y = from.y ;

@@ -14,22 +14,22 @@ int __Route(SDL_Renderer * rend ){
             switch (event.type) {
                 case SDL_MOUSEBUTTONDOWN:
                 //routing
-                    printf("(%d, %d) :: \n",event.motion.x, event.motion.y);
                     if( 520 < event.motion.y && event.motion.y < 575 ){
                         switch(event.motion.x){
                             case 287 ... 450:   //Continue
-                                /*restoreBoard(PLAYER1);
-                                restoreStack();*/
-                                printf(" | CONTINUE | ");
+                                if(!readBoardFromFile() || !readStackFromFile()){
+                                    initBoard(PLAYER1);
+                                    printf("err readBoardFromFile");
+                                    initStack();
+                                }
+                                    
+                                    PlayGame(rend); 
                             break;
                             case 545 ... 710:   // New game
                                 initBoard(PLAYER1);
                                 initStack();
                                 PlayGame(rend);
                             break;
-                            /*case y3 ... y3 + 385:
-                                //call something
-                            break;*/
                         }
                     }
                     
@@ -57,7 +57,7 @@ int __Route(SDL_Renderer * rend ){
 
 int PlayGame(SDL_Renderer * rend ){
     Move lastMove;
-    bool gameOver ;
+    bool gameOver = false;
     int Winner;
     _isGridSelected_From = _isGridSelected_To = false ;
     // Place the grid cursor in the middle of the screen.
@@ -84,6 +84,7 @@ int PlayGame(SDL_Renderer * rend ){
     SDL_bool quit = SDL_FALSE;
     SDL_bool mouse_active = SDL_FALSE;
     SDL_bool mouse_hover = SDL_FALSE;
+    
     while (!quit) { // game loop
     
         SDL_Event event;
@@ -92,21 +93,13 @@ int PlayGame(SDL_Renderer * rend ){
             switch (event.type) {
                 case SDL_KEYDOWN:
                     if( event.key.keysym.sym == SDLK_RETURN  && _isGridSelected_To && _isGridSelected_From ){
-                            Location l1, l2;
-                            /*l(getLocation_Cursor(grid_cursor_From), "clicked");
-                            l(getLocation_Cursor(grid_cursor_To), "clicked");*/
-                            l1 = getLocation_Cursor(grid_cursor_From);
-                            l2 = getLocation_Cursor(grid_cursor_To);
-                            l(l1,"clicked1"); l(l2,"clicked2");
-                            //lastMove = getMove( getLocation_Cursor(grid_cursor_From), getLocation_Cursor(grid_cursor_To));
-                            lastMove = getMove( l1, l2);
+                          
+                            lastMove = getMove( getLocation_Cursor(grid_cursor_From), getLocation_Cursor(grid_cursor_To));
 
-                            m(lastMove);
-                            
                             if(moveBullPiece(lastMove)){ // mouvement effectuer
                                 _player *= -1;
                                 _isGridSelected_To = _isGridSelected_From = false;
-                                
+                                puts("debug");
                                 if(checkMat(PLAYER1)){
                                     gameOver = true;
                                     Winner = PLAYER2;
@@ -129,33 +122,37 @@ int PlayGame(SDL_Renderer * rend ){
                     }
                     break;
                 case SDL_MOUSEBUTTONDOWN:
+                printf("( %d,%d)", event.motion.x, event.motion.y);
+                        if( 600 < event.motion.y && event.motion.y < 630 ){
+                            switch(event.motion.x){
+                                case 720 ... 800:   //Quit
+                                    quit = SDL_TRUE;
+                                break;
+                                case 855 ... 935:   // Save            
+                                    writeBoardIntoFile();
+                                    writeStackdIntoFile();
+                                break;
+                            }
+                        }else
                         if( !_isGridSelected_From ){
-                            
-                            if(onMouseEvent( event.motion, &grid_cursor_From)){
-                                l(getLocation_Cursor(grid_cursor_From), "click1");
-                                /*if(isEmptyLocation(getLocation_Cursor(grid_cursor_From)))
-                                    break;*/
+                                grid_cursor_From = grid_cursor_ghost;
                                 grid_cursor_From.x -= 3;
                                 grid_cursor_From.y -= 3;
                                 grid_cursor_From.w += 6;
                                 grid_cursor_From.h += 6;
                                 _isGridSelected_From = true;
-                            }    
                         }
                         else{
-                            if(onMouseEvent( event.motion, &grid_cursor_To)){
-                                l(getLocation_Cursor(grid_cursor_To), "click2");
+                                grid_cursor_To = grid_cursor_ghost;
                                 grid_cursor_To.x -= 3;
                                 grid_cursor_To.y -= 3;
                                 grid_cursor_To.w += 6;
                                 grid_cursor_To.h += 6;
                                 _isGridSelected_To = true;
-                            }
                         }
                     break;
                 case SDL_MOUSEMOTION:
                     onMouseEvent( event.motion, &grid_cursor_ghost);
-                    //l(getLocation_Cursor(grid_cursor_ghost), "hover");
                     
                     if (!mouse_active)
                         mouse_active = SDL_TRUE;
@@ -199,14 +196,13 @@ int PlayGame(SDL_Renderer * rend ){
         }
 
         // Draw grid ghost cursor.
-        if (mouse_active && mouse_hover) {
-
+        //if (mouse_active && mouse_hover) {
             if(!_isGridSelected_From)
                 draw_grid_cursor(rend, ghost_color_blue, &grid_cursor_ghost );
                 
             else
                 draw_grid_cursor(rend, ghost_color_yellow, &grid_cursor_ghost );
-        }
+       // }
 
         // Draw grid cursor.
         if(_isGridSelected_From){
@@ -215,7 +211,6 @@ int PlayGame(SDL_Renderer * rend ){
                 draw_grid_cursor(rend, color_Yellow, &grid_cursor_To);
         }
 
-        //alert(SDL_Renderer * rend,char * Text ,int daley)
         displayBoard(rend);
         displaySideBar(rend, lastMove);
         SDL_RenderPresent(rend);
@@ -224,15 +219,11 @@ int PlayGame(SDL_Renderer * rend ){
             freeBoard();
             makeStackEmpty();
             
-            if(alert(rend,"Game over" ,5000, Winner)){
-                initBoard(PLAYER1);
-                initStack();
-                _isGridSelected_From = _isGridSelected_To = false ;
-                quit = SDL_FALSE;
-            }
+            drawImageDefault(rend,(Winner == PLAYER1)? KING1_WINNER : KING2_WINNER,65, 166,530, 337 );
+            SDL_RenderPresent(rend);
+            SDL_Delay(4000);
+            quit = SDL_TRUE;
             
-            else 
-                quit = SDL_TRUE;
         } 
     }
 }
