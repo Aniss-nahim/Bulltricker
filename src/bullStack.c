@@ -33,7 +33,6 @@ bool isEmptyStack(){
 }
 
 bool readStackFromFile(){
-    printf("readStackFromFile\n");
     FILE *file = fopen(FILE_GAME_STACK, "rb");
     if(!file)
         return false;
@@ -45,16 +44,13 @@ bool readStackFromFile(){
     fread(  &piece , sizeof( Piece ), 1 , file);
     while ( !feof( file ) ){
         pushToStack(createPiece( piece.PlayerOwner, piece.kind));
-        printf("%d,%c",piece.PlayerOwner, piece.kind);
         fread(  &piece , sizeof( Piece ), 1 , file);
-        printf(" push");
    }
     fclose(file);
     return true;
 }
 
 bool writeStackdIntoFile(){
-    printf("writeBoardIntoFile");
     FILE *file = fopen(FILE_GAME_STACK, "wb");
     if(isEmptyStack()){
         close(file);
@@ -64,12 +60,10 @@ bool writeStackdIntoFile(){
         /* code */
         Node * node = _stackPieces->head;
         while(node){
-            printf(" pull ");
             fwrite(  node->piece , sizeof( Piece ), 1 , file);
             node = node->next;
         }
-        makeStackEmpty();
-        free(_stackPieces);
+       
         fclose(file);
         return true;
     }

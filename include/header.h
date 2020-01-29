@@ -20,10 +20,6 @@
 #define QUEEN 'Q'
 #define KING 'K'
 
-#define PROHIBITED_CELL 'B'
-#define VERTICAL_CELL 'V'
-#define HORIZONTAL_CELL 'H'
-#define ROYAL_CELL 'R'
 #define LENGHTBOARD 15
 
 
@@ -53,11 +49,6 @@ typedef struct{
     Location kingLocation[2];
 }Board;
 
-typedef struct{
-    int id;
-    char name[25];
-    int role;
-}Player;
 
 typedef struct _node{
     Piece *piece;
@@ -70,9 +61,7 @@ typedef struct{
 
 //Global Variables
 Board   _board;
-Stack * _stackPieces; // this stack will contain all captured pieces
+Stack * _stackPieces;
 int     _player;
-char    _namePlayer1[15];
-char    _namePlayer2[15];
 
 #endif

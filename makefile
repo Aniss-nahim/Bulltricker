@@ -70,7 +70,7 @@ router.o :
 mrproper :
 		rm -f $(TARGETPATH)$(EXEC)
 
-files :
+dataFile :
 		rm -f ./file/*.*
 
 clean_o : 

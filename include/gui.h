@@ -25,6 +25,7 @@ enum{
     BULL_RESTORE_GAME ,
     BULL_SAVE_GAME
 };
+
 enum{ 
     KING_1 ,
     PAWN_1_V ,

@@ -1,10 +1,4 @@
 #include    "../include/controle.h"
-void m(Move move){
-    printf(" (%d,%d) > (%d,%d) \n", move.from.x, move.from.y, move.to.x, move.to.y);
-}
-void l(Location Loc, char *tag){
-    printf(" (%d,%d) :: %s \n", Loc.x, Loc.y, tag);
-}
 
 void initBoard(int rolePlayer){
     _player = rolePlayer;
@@ -159,7 +153,6 @@ Move getMove(Location Loc_From, Location Loc_To ){
 }
 
 bool readBoardFromFile(){
-    printf("readBoardFromFile\n");
     FILE *file = fopen(FILE_GAME_PART, "rb");
     if(!file)
         return false;
@@ -192,7 +185,6 @@ bool readBoardFromFile(){
 }
 
 bool  writeBoardIntoFile(){
-    printf("writeBoardIntoFile");
     FILE *file = fopen(FILE_GAME_PART, "wb");
     
     fwrite(  &_player , sizeof( int ), 1 , file);
