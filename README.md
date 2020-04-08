@@ -1,4 +1,4 @@
-# Foobar
+# Bulltracker
 
 Bulltracker game made with the C language
 
