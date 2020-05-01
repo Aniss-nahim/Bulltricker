@@ -1,6 +1,6 @@
-# Bulltracker
+# Bulltricker
 
-Bulltracker game made with the C language
+Bulltricker game made with the C language
 
 ## Usage
 
